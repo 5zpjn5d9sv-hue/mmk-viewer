@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>MMK · 서울시 강남구 개포로 409 현대3차</title>
-<meta name="description" content="MMK 키친 제안 · 3D 공간">
+<meta name="description" content="MMK 키친 제안 · 렌더 4컷 · 3D 공간">
 <meta property="og:title" content="MMK · 서울시 강남구 개포로 409 현대3차">
-<meta property="og:description" content="3D 공간">
+<meta property="og:description" content="렌더 4컷 · 3D 공간">
 <meta property="og:image" content="https://5zpjn5d9sv-hue.github.io/mmk-viewer/gaepo-hyundai3/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -63,6 +63,13 @@
   .views button,.toggles button{border:0;background:rgba(255,255,255,.94);font:500 11.5px "Noto Sans KR";padding:7px 11px;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.1)}
   .views button.on,.toggles button.on{background:var(--ink);color:#fff}
   .toggles{position:absolute;right:14px;top:14px;display:flex;gap:6px}
+  .sw{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);background:rgba(255,255,255,.94);border-radius:14px;padding:10px 14px 8px;box-shadow:0 1px 4px rgba(0,0,0,.12);text-align:center}
+  .sw .t{font:500 11px "Noto Sans KR";color:#4a4740;margin-bottom:7px}
+  .sw .row{display:flex;gap:14px;justify-content:center}
+  .sw button{white-space:nowrap;border:0;background:none;cursor:pointer;font:500 10.5px "Noto Sans KR";color:var(--mute);display:flex;flex-direction:column;align-items:center;gap:4px;padding:0}
+  .sw i{display:block;width:30px;height:30px;border-radius:50%;border:1px solid #0002;box-shadow:inset 0 0 0 2px #fff}
+  .sw button.on{color:var(--ink);font-weight:600}
+  .sw button.on i{outline:1.5px solid var(--ink);outline-offset:2px}
   .hint{position:absolute;left:14px;bottom:12px;font-size:10.5px;color:#6d6a63;background:rgba(255,255,255,.8);padding:4px 8px}
   .loading{position:absolute;inset:0;display:grid;place-items:center;font-size:12px;color:var(--mute)}
   .modal{position:fixed;inset:0;background:#111;display:none;z-index:50;touch-action:none}
@@ -84,7 +91,9 @@
     .space-wrap{aspect-ratio:4/5}
     .arrow{width:34px;height:34px}
     .views{right:14px}
-    .toggles{top:auto;bottom:12px}
+    .toggles{top:auto;bottom:96px}
+    .hint{display:none}
+    .sw{bottom:10px;padding:8px 10px 6px;width:max-content}.sw .row{gap:12px}.sw i{width:26px;height:26px}
   }
 </style>
 </head>
@@ -97,7 +106,7 @@
   </div>
   <div class="right"><button class="icon" id="share" title="링크 복사" aria-label="링크 복사">⤴</button></div>
 </header>
-<div class="mat">하부장·홈바 체리 브라운 도장 · 상부장·선반 라임 옐로 도장 · 다이닝장 Edge 오크 · 키큰장 PET 코퍼 브라운 / 상판 세라믹 12T / 바닥 미정 / 벽 타일 미정</div>
+<div class="mat">하부장·홈바 체리 브라운 도장 · 상부장·선반 <span id="upName">라임 옐로</span> 도장 · 다이닝장 라임 옐로 도장 · 키큰장 PET 코퍼 브라운 / 상판 세라믹 12T / 바닥 미정 / 벽 타일 미정</div>
 
 <main>
   <section id="secR">
@@ -129,6 +138,7 @@
       </div>
       <div class="toggles"><button id="ctx" class="on">주변 벽</button></div>
       <div class="hint">벽·도어·장 윤곽선 표시</div>
+      <div class="sw" id="sw"><div class="t">상부장·선반 컬러</div><div class="row" id="swRow"></div></div>
     </div>
     <div class="note">3D는 배치와 분할 확인용입니다. 재질과 빛은 렌더 이미지를 기준으로 봐 주세요.</div>
   </section>
@@ -145,7 +155,14 @@
 
 <script>
 const RENDERS=[
-  /* 렌더 이미지가 오면 {src:'r1.jpg?v=..',thumb:'t1.jpg?v=..',title:'본주방',label:'01 본주방',cap:'...'} 형식으로 추가 */
+  {src:'r1.jpg?v=2611131935',thumb:'t1.jpg?v=2611131935',title:'본주방',label:'01 본주방',
+   cap:'하부장 체리 브라운 도장 · 상부장·선반 라임 옐로 도장 / 상판 세라믹 12T'},
+  {src:'r2.jpg?v=2611131935',thumb:'t2.jpg?v=2611131935',title:'다이닝장',label:'02 다이닝장',
+   cap:'도어 라임 옐로 도장 · 와인셀러 / 상판 세라믹 12T'},
+  {src:'r3.jpg?v=2611131935',thumb:'t3.jpg?v=2611131935',title:'냉장고장',label:'03 냉장고장',
+   cap:'키큰장 PET 코퍼 브라운 · 냉장고 스테인리스'},
+  {src:'r4.jpg?v=2611131935',thumb:'t4.jpg?v=2611131935',title:'홈바',label:'04 홈바',
+   cap:'체리 브라운 도장 / 상판 세라믹 12T'}
 ];
 let ri=0;
 const $=id=>document.getElementById(id);
@@ -215,9 +232,22 @@ $('share').onclick=async()=>{try{await navigator.clipboard.writeText(location.hr
 function toast(t){$('toast').textContent=t;$('toast').classList.add('on');setTimeout(()=>$('toast').classList.remove('on'),1800)}
 
 /* 3D */
+/* 상부장·선반 컬러 (MMK 컬러 목록. 화면 색은 근사값) */
+const UPPER=[
+  {code:'PT_02',name:'라임 옐로',hex:0xe3e2c2},
+  {code:'PT_09',name:'솔트 화이트',hex:0xf1eee6},
+  {code:'PT_21',name:'오트 베이지',hex:0xd8c7a6},
+  {code:'PT_07',name:'애플 민트',hex:0xbcd9c3}];
+let upIdx=0,mats={};
+function setUpper(i){upIdx=i;const u=UPPER[i];
+  if(mats.lime)mats.lime.color.set(new THREE.Color(u.hex).convertSRGBToLinear());
+  $('upName').textContent=u.name;
+  [...$('swRow').children].forEach((b,k)=>b.classList.toggle('on',k===i))}
+UPPER.forEach((u,k)=>{const b=document.createElement('button');b.innerHTML=`<i style="background:#${u.hex.toString(16).padStart(6,'0')}"></i>${u.name}`;b.onclick=()=>setUpper(k);$('swRow').appendChild(b)});
+$('swRow').children[0].classList.add('on');
 let glReady=false,renderer,scene,camera,controls,ctxGroup;
-const COL={wall:0xf3f2ee,floor:0xc9b08e,carcass:0xe8e5de,cherry:0x69302a,lime:0xd1cf52,oak:0xc4a074,oakp:0xbd9a6c,copper:0x7c5742,
- counter:0xdfd8cc,handle:0x9fa4a5,sts:0xb2b5b8,black:0x1d1d1f};
+const COL={wall:0xf4f1ec,floor:0xd9b48f,carcass:0xe8e5de,cherry:0x8a5040,lime:0xe3e2c2,dlime:0xddd8bc,copper:0x9a6048,
+ counter:0xe8e1d6,handle:0xb4b8ba,sts:0xb9b8b4,black:0x1d1d1f};
 const CTX=new Set(['wall']), NOEDGE=new Set(['carcass','floor','sts','handle']);
 // 주방 중심(모델 mm). 원점은 주방 북서 실내 모서리, X 동 / Y 북 / Z 위
 const K={x:1400,y:-2000};
@@ -246,10 +276,9 @@ async function initGL(){
   scene.add(new THREE.HemisphereLight(0xffffff,0xd9cfc0,.85));
   const sun=new THREE.DirectionalLight(0xffffff,.55);sun.position.set(-6,9,4);scene.add(sun);
   const fill=new THREE.DirectionalLight(0xffffff,.25);fill.position.set(5,6,-6);scene.add(fill);
-  let data;try{data=await (await fetch('model.json?v=2611131910',{cache:'no-cache'})).json()}catch(e){$('loading').textContent='3D 데이터를 불러오지 못했어요.';return}
+  let data;try{data=await (await fetch('model.json?v=2611131935',{cache:'no-cache'})).json()}catch(e){$('loading').textContent='3D 데이터를 불러오지 못했어요.';return}
   ctxGroup=new THREE.Group();const main=new THREE.Group();scene.add(ctxGroup,main);
   const edgeMat=new THREE.LineBasicMaterial({color:0xb9b6ae});
-  const mats={};
   for(const o of data){
     const pos=new Float32Array(o.v.length);
     for(let i=0;i<o.v.length;i+=3){const v=toV(o.v[i],o.v[i+1],o.v[i+2]);pos[i]=v.x;pos[i+1]=v.y;pos[i+2]=v.z}
@@ -260,7 +289,7 @@ async function initGL(){
     const grp=CTX.has(k)?ctxGroup:main;grp.add(new THREE.Mesh(g,mats[k]));
     if(!NOEDGE.has(k))grp.add(new THREE.LineSegments(new THREE.EdgesGeometry(g,25),edgeMat));
   }
-  $('loading').style.display='none';
+  $('loading').style.display='none';setUpper(upIdx);
   resize();goCam('front');
   (function loop(){requestAnimationFrame(loop);controls.update();renderer.render(scene,camera)})();
 }
