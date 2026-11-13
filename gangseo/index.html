@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MMK · 강서월드메르디앙</title>
+<meta name="description" content="MMK 키친 제안 · 렌더 2컷 · 3D 공간">
+<meta property="og:title" content="MMK · 강서월드메르디앙">
+<meta property="og:description" content="렌더 2컷 · 3D 공간">
+<meta property="og:image" content="https://5zpjn5d9sv-hue.github.io/mmk-viewer/gangseo/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://5zpjn5d9sv-hue.github.io/mmk-viewer/gangseo/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://5zpjn5d9sv-hue.github.io/mmk-viewer/gangseo/og.png">
+<link rel="icon" href="logo.png">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#f1eee8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;900&family=Noto+Sans+KR:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#f1eee8;--ink:#1d1d1b;--mute:#8a867e;--line:#dcd7cd;--card:#e9e5dd}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--ink);font-family:Inter,"Noto Sans KR",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);min-height:100vh}
+  header{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px;padding:14px 22px;border-bottom:1px solid var(--line)}
+  .brand{display:flex;align-items:center;gap:14px;min-width:0}
+  .logo{height:20px;width:auto;display:block}
+  .addr{font-size:11px;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border-left:1px solid var(--line);padding-left:14px}
+  .seg{display:flex;background:var(--card);border-radius:999px;padding:3px}
+  .seg button{border:0;background:none;font:500 12.5px Inter,"Noto Sans KR";color:var(--ink);padding:8px 16px;border-radius:999px;cursor:pointer;white-space:nowrap}
+  .seg button.on{background:var(--ink);color:#fff}
+  .seg .n{display:inline-block;margin-left:6px;font-size:11px;opacity:.6}
+  .right{justify-self:end}
+  .icon{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:#fff;display:grid;place-items:center;cursor:pointer;font-size:14px}
+  .mat{padding:12px 22px;font-size:11.5px;color:var(--mute);border-bottom:1px solid var(--line);line-height:1.6}
+  .mat b{color:var(--ink);font-weight:600}
+  main{max-width:1180px;margin:0 auto;padding:26px 22px 40px}
+  .eyebrow{font-size:10px;letter-spacing:.18em;color:var(--mute)}
+  .titlebar{display:flex;justify-content:space-between;align-items:baseline;margin:6px 0 14px}
+  .titlebar h2{font:500 19px "Noto Sans KR",Inter}
+  .count{font-size:11px;color:var(--mute);letter-spacing:.1em}
+  .stage{position:relative;background:var(--card);aspect-ratio:16/9;overflow:hidden;border-radius:2px}
+  .stage img{width:100%;height:100%;object-fit:contain;display:block;cursor:zoom-in}
+  .arrow{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;border:0;background:rgba(255,255,255,.92);font-size:20px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.12)}
+  .arrow.l{left:14px}.arrow.r{right:14px}
+  .zoombtn{position:absolute;right:14px;bottom:14px;border:0;background:#fff;font:500 11.5px "Noto Sans KR";padding:8px 12px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.12)}
+  .caption{display:flex;justify-content:space-between;gap:16px;margin-top:12px;font-size:12px;line-height:1.7;color:#4a4740}
+  .note{font-size:11px;color:var(--mute);margin-top:8px}
+  .thumbs{display:flex;gap:10px;justify-content:center;margin-top:20px;flex-wrap:wrap}
+  .thumbs button{border:1px solid transparent;background:none;padding:3px;cursor:pointer;text-align:left}
+  .thumbs button.on{border-color:var(--ink)}
+  .thumbs img{display:block;width:140px;aspect-ratio:16/9;object-fit:cover;background:var(--card)}
+  .thumbs span{display:block;font-size:10.5px;margin-top:4px;color:#4a4740}
+  #secS{display:none}
+  .space-wrap{position:relative;background:#e9e6df;aspect-ratio:16/9;border-radius:2px;overflow:hidden;touch-action:none}
+  #gl{width:100%;height:100%;display:block}
+  .views{position:absolute;left:14px;top:14px;display:flex;gap:6px;flex-wrap:wrap}
+  .views button,.toggles button{border:0;background:rgba(255,255,255,.94);font:500 11.5px "Noto Sans KR";padding:7px 11px;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+  .views button.on,.toggles button.on{background:var(--ink);color:#fff}
+  .toggles{position:absolute;right:14px;top:14px;display:flex;gap:6px}
+  .hint{position:absolute;left:14px;bottom:12px;font-size:10.5px;color:#6d6a63;background:rgba(255,255,255,.8);padding:4px 8px}
+  .loading{position:absolute;inset:0;display:grid;place-items:center;font-size:12px;color:var(--mute)}
+  .modal{position:fixed;inset:0;background:#111;display:none;z-index:50;touch-action:none}
+  .modal.on{display:block}
+  .modal img{position:absolute;left:50%;top:50%;max-width:none;transform-origin:0 0;user-select:none;-webkit-user-drag:none}
+  .mbar{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:12px 16px;padding-top:calc(12px + env(safe-area-inset-top));color:#fff;font-size:12px;z-index:2;background:linear-gradient(#000a,#0000)}
+  .mbar button{border:1px solid #fff5;background:#0006;color:#fff;font:500 12px "Noto Sans KR";padding:6px 10px;cursor:pointer}
+  .zoomctl{display:flex;gap:6px;align-items:center}
+  .mhint{position:absolute;bottom:calc(14px + env(safe-area-inset-bottom));left:0;right:0;text-align:center;color:#fffa;font-size:11px}
+  .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;font-size:12px;padding:8px 14px;border-radius:999px;opacity:0;transition:.2s;pointer-events:none}
+  .toast.on{opacity:1}
+  @media (max-width:720px){
+    header{grid-template-columns:1fr auto;grid-template-areas:"b r" "s s";padding:12px 14px}
+    .brand{grid-area:b}.right{grid-area:r}.seg{grid-area:s;justify-self:center}
+    .logo{height:17px}.addr{padding-left:10px}
+    .mat,main{padding-left:14px;padding-right:14px}
+    .caption{flex-direction:column;gap:4px}
+    .thumbs img{width:110px}
+    .space-wrap{aspect-ratio:4/5}
+    .arrow{width:34px;height:34px}
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><img class="logo" src="logo.png" alt="MMK"><div class="addr">서울 강서구 공항대로 · 강서월드메르디앙</div></div>
+  <div class="seg" role="tablist">
+    <button id="tabR" class="on" data-v="renders">렌더 이미지<span class="n" id="nR"></span></button>
+    <button id="tabS" data-v="space">3D 공간</button>
+  </div>
+  <div class="right"><button class="icon" id="share" title="링크 복사" aria-label="링크 복사">⤴</button></div>
+</header>
+<div class="mat">도어 MMK PT 09 Salt white / 상판 듀폰 코리안 12T 화이트 / 바닥 구정마루 블론테 헤이즈오크 / 벽 타일 150각 화이트</div>
+
+<main>
+  <section id="secR">
+    <div class="eyebrow">RENDER COLLECTION</div>
+    <div class="titlebar"><h2 id="rTitle"></h2><div class="count" id="rCount"></div></div>
+    <div class="stage">
+      <img id="rImg" alt="">
+      <button class="arrow l" id="prev" aria-label="이전">‹</button>
+      <button class="arrow r" id="next" aria-label="다음">›</button>
+      <button class="zoombtn" id="zoom">크게 보기 ⤢</button>
+    </div>
+    <div class="caption"><div id="rCap"></div></div>
+    <div class="note">설계 검토용 시안입니다. 렌더 이미지와 3D의 재질 표현은 실제와 다를 수 있습니다.</div>
+    <div class="thumbs" id="thumbs"></div>
+  </section>
+
+  <section id="secS">
+    <div class="eyebrow">3D SPACE</div>
+    <div class="titlebar"><h2>3D 공간</h2><div class="count">드래그로 회전 · 두 손가락으로 확대</div></div>
+    <div class="space-wrap" id="wrap">
+      <canvas id="gl"></canvas>
+      <div class="loading" id="loading">3D 공간을 불러오는 중…</div>
+      <div class="views" id="views">
+        <button data-c="front" class="on">정면</button>
+        <button data-c="diag">사선</button>
+        <button data-c="top">위에서</button>
+      </div>
+      <div class="toggles"><button id="ctx" class="on">주변 벽</button></div>
+      <div class="hint">벽·도어·장 윤곽선 표시</div>
+    </div>
+    <div class="note">3D는 배치와 분할 확인용입니다. 재질과 빛은 렌더 이미지를 기준으로 봐 주세요.</div>
+  </section>
+</main>
+
+<div class="modal" id="modal">
+  <div class="mbar"><span id="mTitle"></span>
+    <div class="zoomctl"><button id="zOut">−</button><span id="zPct">100%</span><button id="zIn">＋</button><button id="mClose">닫기 ×</button></div>
+  </div>
+  <img id="mImg" alt="">
+  <div class="mhint">두 손가락으로 확대, 끌어서 이동</div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const RENDERS=[
+  {src:'r1.jpg',thumb:'t1.jpg',title:'정면',label:'01 정면',
+   cap:'도어 화이트 도장 / 상판 코리안 12T 화이트'},
+  {src:'r2.jpg',thumb:'t2.jpg',title:'사선',label:'02 사선',
+   cap:'도어 화이트 도장 / 상판 코리안 12T 화이트'}
+];
+let ri=0;
+const $=id=>document.getElementById(id);
+$('nR').textContent=RENDERS.length;
+function showR(i){
+  ri=(i+RENDERS.length)%RENDERS.length;const r=RENDERS[ri];
+  $('rImg').src=r.src;$('rImg').alt=r.title;$('rTitle').textContent=r.title;
+  $('rCount').textContent=String(ri+1).padStart(2,'0')+' / '+String(RENDERS.length).padStart(2,'0');
+  $('rCap').textContent=r.cap;
+  [...$('thumbs').children].forEach((b,k)=>b.classList.toggle('on',k===ri));
+}
+RENDERS.forEach((r,k)=>{const b=document.createElement('button');b.innerHTML=`<img src="${r.thumb}" alt=""><span>${r.label}</span>`;b.onclick=()=>showR(k);$('thumbs').appendChild(b)});
+$('prev').onclick=()=>showR(ri-1);$('next').onclick=()=>showR(ri+1);
+let sx=null;$('rImg').addEventListener('touchstart',e=>{sx=e.touches[0].clientX},{passive:true});
+$('rImg').addEventListener('touchend',e=>{if(sx==null)return;const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40)showR(ri+(dx<0?1:-1));sx=null});
+showR(0);
+
+/* modal zoom */
+let sc=1,tx=0,ty=0,nat={w:1,h:1};
+const mImg=$('mImg');
+function fit(){const W=innerWidth,H=innerHeight;const s=Math.min(W/nat.w,H/nat.h);base=s;}
+let base=1;
+function apply(){const s=base*sc;mImg.style.width=nat.w*s+'px';mImg.style.height=nat.h*s+'px';mImg.style.transform=`translate(${-nat.w*s/2+tx}px,${-nat.h*s/2+ty}px)`;$('zPct').textContent=Math.round(sc*100)+'%'}
+function openM(){const r=RENDERS[ri];$('mTitle').textContent=r.title;mImg.onload=()=>{nat={w:mImg.naturalWidth,h:mImg.naturalHeight};fit();sc=1;tx=ty=0;apply()};mImg.src=r.src;$('modal').classList.add('on')}
+$('zoom').onclick=openM;$('rImg').onclick=openM;
+$('mClose').onclick=()=>$('modal').classList.remove('on');
+document.addEventListener('keydown',e=>{if(e.key==='Escape')$('modal').classList.remove('on');if(!$('modal').classList.contains('on')&&cur==='renders'){if(e.key==='ArrowLeft')showR(ri-1);if(e.key==='ArrowRight')showR(ri+1)}});
+const clamp=v=>Math.min(6,Math.max(1,v));
+$('zIn').onclick=()=>{sc=clamp(sc*1.4);apply()};$('zOut').onclick=()=>{sc=clamp(sc/1.4);if(sc===1)tx=ty=0;apply()};
+$('modal').addEventListener('wheel',e=>{e.preventDefault();sc=clamp(sc*(e.deltaY<0?1.15:1/1.15));if(sc===1)tx=ty=0;apply()},{passive:false});
+const pts=new Map();let last=null,pd=0,ps=1;
+$('modal').addEventListener('pointerdown',e=>{if(e.target.tagName==='BUTTON')return;pts.set(e.pointerId,{x:e.clientX,y:e.clientY});if(pts.size===2){const[a,b]=[...pts.values()];pd=Math.hypot(a.x-b.x,a.y-b.y);ps=sc}last={x:e.clientX,y:e.clientY}});
+$('modal').addEventListener('pointermove',e=>{if(!pts.has(e.pointerId))return;pts.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  if(pts.size===2){const[a,b]=[...pts.values()];sc=clamp(ps*Math.hypot(a.x-b.x,a.y-b.y)/pd);apply()}
+  else if(sc>1&&last){tx+=e.clientX-last.x;ty+=e.clientY-last.y;last={x:e.clientX,y:e.clientY};apply()}});
+['pointerup','pointercancel','pointerleave'].forEach(t=>$('modal').addEventListener(t,e=>{pts.delete(e.pointerId);if(pts.size<2)last=null}));
+addEventListener('resize',()=>{if($('modal').classList.contains('on')){fit();apply()}});
+
+/* views */
+let cur='renders';
+function setView(v){cur=v;$('secR').style.display=v==='renders'?'block':'none';$('secS').style.display=v==='space'?'block':'none';
+  $('tabR').classList.toggle('on',v==='renders');$('tabS').classList.toggle('on',v==='space');
+  if(v==='space')initGL();if(location.hash!=='#'+v)history.replaceState(null,'','#'+v)}
+$('tabR').onclick=()=>setView('renders');$('tabS').onclick=()=>setView('space');
+addEventListener('hashchange',()=>setView(location.hash==='#space'?'space':'renders'));
+$('share').onclick=async()=>{try{await navigator.clipboard.writeText(location.href.split('#')[0]);toast('링크를 복사했어요')}catch(e){toast('주소창의 링크를 복사해 주세요')}};
+function toast(t){$('toast').textContent=t;$('toast').classList.add('on');setTimeout(()=>$('toast').classList.remove('on'),1800)}
+
+/* 3D */
+let glReady=false,renderer,scene,camera,controls,ctxGroup;
+const COL={
+ 'S1_WholeHome_ContextWalls_provisional':0xf3f2ee,'S1_Kitchen_Walls_provisional':0xf3f2ee,
+ 'S3_Door_MMK_PT09':0xf6f5f1,'S3_EP_Toe_MMK_PT09':0xf2f1ed,'S3_Corian_White12T':0xfafaf7,
+ 'S3_Carcass_PB_LPM':0xe8e6e0,'S3_DrawerInside':0xe4e1da,'S3_STS':0xb7babd,'S3_Sink_Faucet':0xa9adb1,'S3_Appliance':0x1d1d1f};
+// center of kitchen in model mm: X 0..2800, Y -2500..0
+const K={x:1400,y:-1250};
+const toV=(x,y,z)=>new THREE.Vector3((x-K.x)/1000,z/1000,-(y-K.y)/1000);
+const PRESET={
+  front:{pos:[1400,-3950,1300],tgt:[1400,-600,1050]},
+  diag:{pos:[5200,-3600,1350],tgt:[1000,-700,950]},
+  top:{pos:[1400,-1600,9500],tgt:[1400,-1250,0]}};
+function goCam(k){const p=PRESET[k];camera.position.copy(toV(...p.pos));controls.target.copy(toV(...p.tgt));controls.update();
+  [...$('views').children].forEach(b=>b.classList.toggle('on',b.dataset.c===k))}
+function loadScript(src){return new Promise((res,rej)=>{const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s)})}
+async function initGL(){
+  if(glReady){resize();return}glReady=true;
+  try{
+    await loadScript('https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js');
+    await loadScript('https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js');
+  }catch(e){$('loading').textContent='3D 도구를 불러오지 못했어요. 새로고침해 주세요.';glReady=false;return}
+  const cv=$('gl');
+  renderer=new THREE.WebGLRenderer({canvas:cv,antialias:true});renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  renderer.outputEncoding=THREE.sRGBEncoding;
+  scene=new THREE.Scene();scene.background=new THREE.Color(0xe9e6df);
+  camera=new THREE.PerspectiveCamera(55,1,0.05,200);
+  controls=new THREE.OrbitControls(camera,cv);controls.enableDamping=true;controls.dampingFactor=.08;controls.maxPolarAngle=Math.PI*0.495;controls.minDistance=.6;controls.maxDistance=30;
+  scene.add(new THREE.HemisphereLight(0xffffff,0xd9cfc0,.85));
+  const sun=new THREE.DirectionalLight(0xffffff,.55);sun.position.set(-6,9,4);scene.add(sun);
+  const fill=new THREE.DirectionalLight(0xffffff,.25);fill.position.set(5,6,-6);scene.add(fill);
+  let data;try{data=await (await fetch('model.json')).json()}catch(e){$('loading').textContent='3D 데이터를 불러오지 못했어요.';return}
+  ctxGroup=new THREE.Group();const main=new THREE.Group();scene.add(ctxGroup,main);
+  const edgeMat=new THREE.LineBasicMaterial({color:0xb9b6ae});
+  const mats={};
+  for(const o of data){
+    const pos=new Float32Array(o.v.length);
+    for(let i=0;i<o.v.length;i+=3){const v=toV(o.v[i],o.v[i+1],o.v[i+2]);pos[i]=v.x;pos[i+1]=v.y;pos[i+2]=v.z}
+    const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(pos,3));g.setIndex(o.f);g.computeVertexNormals();
+    const c=COL[o.l]??0xeeeeea;
+    if(!mats[o.l])mats[o.l]=new THREE.MeshStandardMaterial({color:c,roughness:o.l.includes('STS')||o.l.includes('Faucet')?.35:.9,metalness:o.l.includes('STS')||o.l.includes('Faucet')?.6:0,side:THREE.DoubleSide,polygonOffset:true,polygonOffsetFactor:1,polygonOffsetUnits:1});
+    const mesh=new THREE.Mesh(g,mats[o.l]);
+    const grp=o.l.includes('ContextWalls')?ctxGroup:main;grp.add(mesh);
+    if(!o.l.includes('DrawerInside')&&!o.l.includes('Carcass')){const e=new THREE.LineSegments(new THREE.EdgesGeometry(g,25),edgeMat);grp.add(e)}
+  }
+  // floor (oak tone) under the whole home
+  const fx0=-1892,fx1=10921,fy0=-7859,fy1=3808;
+  const fl=new THREE.Mesh(new THREE.PlaneGeometry((fx1-fx0)/1000,(fy1-fy0)/1000),new THREE.MeshStandardMaterial({color:0xd9c6a8,roughness:.95}));
+  fl.rotation.x=-Math.PI/2;const fc=toV((fx0+fx1)/2,(fy0+fy1)/2,0);fl.position.set(fc.x,-0.001,fc.z);scene.add(fl);
+  $('loading').style.display='none';
+  resize();goCam('front');
+  (function loop(){requestAnimationFrame(loop);controls.update();renderer.render(scene,camera)})();
+}
+function resize(){if(!renderer)return;const w=$('wrap').clientWidth,h=$('wrap').clientHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix()}
+addEventListener('resize',resize);
+$('views').addEventListener('click',e=>{const k=e.target.dataset&&e.target.dataset.c;if(k&&camera)goCam(k)});
+$('ctx').onclick=()=>{if(!ctxGroup)return;ctxGroup.visible=!ctxGroup.visible;$('ctx').classList.toggle('on',ctxGroup.visible)};
+
+setView(location.hash==='#space'?'space':'renders');
+</script>
+</body>
+</html>
