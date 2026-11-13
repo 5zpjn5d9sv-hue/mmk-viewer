@@ -106,7 +106,7 @@
   </div>
   <div class="right"><button class="icon" id="share" title="링크 복사" aria-label="링크 복사">⤴</button></div>
 </header>
-<div class="mat">하부장·홈바 체리 브라운 도장 · 상부장·선반 <span id="upName">라임 옐로</span> 도장 · 다이닝장 라임 옐로 도장 · 키큰장 PET 코퍼 브라운 / 상판 세라믹 12T / 바닥 미정 / 벽 타일 미정</div>
+<div class="mat">하부장·홈바 체리 브라운 도장 · 상부장·선반 라임 옐로 도장 · 다이닝장 <span id="upName">라임 옐로</span> 도장 · 키큰장 PET 코퍼 브라운 / 상판 세라믹 12T / 바닥 미정 / 벽 타일 미정</div>
 
 <main>
   <section id="secR">
@@ -138,7 +138,7 @@
       </div>
       <div class="toggles"><button id="ctx" class="on">주변 벽</button></div>
       <div class="hint">벽·도어·장 윤곽선 표시</div>
-      <div class="sw" id="sw"><div class="t">상부장·선반 컬러</div><div class="row" id="swRow"></div></div>
+      <div class="sw" id="sw"><div class="t">다이닝장 컬러</div><div class="row" id="swRow"></div></div>
     </div>
     <div class="note">3D는 배치와 분할 확인용입니다. 재질과 빛은 렌더 이미지를 기준으로 봐 주세요.</div>
   </section>
@@ -155,13 +155,13 @@
 
 <script>
 const RENDERS=[
-  {src:'r1.jpg?v=2611131935',thumb:'t1.jpg?v=2611131935',title:'본주방',label:'01 본주방',
+  {src:'r1.jpg?v=2611131945',thumb:'t1.jpg?v=2611131945',title:'본주방',label:'01 본주방',
    cap:'하부장 체리 브라운 도장 · 상부장·선반 라임 옐로 도장 / 상판 세라믹 12T'},
-  {src:'r2.jpg?v=2611131935',thumb:'t2.jpg?v=2611131935',title:'다이닝장',label:'02 다이닝장',
+  {src:'r2.jpg?v=2611131945',thumb:'t2.jpg?v=2611131945',title:'다이닝장',label:'02 다이닝장',
    cap:'도어 라임 옐로 도장 · 와인셀러 / 상판 세라믹 12T'},
-  {src:'r3.jpg?v=2611131935',thumb:'t3.jpg?v=2611131935',title:'냉장고장',label:'03 냉장고장',
+  {src:'r3.jpg?v=2611131945',thumb:'t3.jpg?v=2611131945',title:'냉장고장',label:'03 냉장고장',
    cap:'키큰장 PET 코퍼 브라운 · 냉장고 스테인리스'},
-  {src:'r4.jpg?v=2611131935',thumb:'t4.jpg?v=2611131935',title:'홈바',label:'04 홈바',
+  {src:'r4.jpg?v=2611131945',thumb:'t4.jpg?v=2611131945',title:'홈바',label:'04 홈바',
    cap:'체리 브라운 도장 / 상판 세라믹 12T'}
 ];
 let ri=0;
@@ -232,21 +232,21 @@ $('share').onclick=async()=>{try{await navigator.clipboard.writeText(location.hr
 function toast(t){$('toast').textContent=t;$('toast').classList.add('on');setTimeout(()=>$('toast').classList.remove('on'),1800)}
 
 /* 3D */
-/* 상부장·선반 컬러 (MMK 컬러 목록. 화면 색은 근사값) */
+/* 다이닝장 컬러 (MMK 컬러 목록. 화면 색은 근사값) */
 const UPPER=[
-  {code:'PT_02',name:'라임 옐로',hex:0xe3e2c2},
+  {code:'PT_02',name:'라임 옐로',hex:0xddd8bc},
   {code:'PT_09',name:'솔트 화이트',hex:0xf1eee6},
   {code:'PT_21',name:'오트 베이지',hex:0xd8c7a6},
   {code:'PT_07',name:'애플 민트',hex:0xbcd9c3}];
 let upIdx=0,mats={};
 function setUpper(i){upIdx=i;const u=UPPER[i];
-  if(mats.lime)mats.lime.color.set(new THREE.Color(u.hex).convertSRGBToLinear());
+  if(mats.dlime)mats.dlime.color.set(new THREE.Color(u.hex).convertSRGBToLinear());
   $('upName').textContent=u.name;
   [...$('swRow').children].forEach((b,k)=>b.classList.toggle('on',k===i))}
 UPPER.forEach((u,k)=>{const b=document.createElement('button');b.innerHTML=`<i style="background:#${u.hex.toString(16).padStart(6,'0')}"></i>${u.name}`;b.onclick=()=>setUpper(k);$('swRow').appendChild(b)});
 $('swRow').children[0].classList.add('on');
 let glReady=false,renderer,scene,camera,controls,ctxGroup;
-const COL={wall:0xf4f1ec,floor:0xd9b48f,carcass:0xe8e5de,cherry:0x8a5040,lime:0xe3e2c2,dlime:0xddd8bc,copper:0x9a6048,
+const COL={wall:0xf4f1ec,floor:0xcdb69a,carcass:0xe8e5de,cherry:0x8a5040,lime:0xe3e2c2,dlime:0xddd8bc,copper:0x9a6048,
  counter:0xe8e1d6,handle:0xb4b8ba,sts:0xb9b8b4,black:0x1d1d1f};
 const CTX=new Set(['wall']), NOEDGE=new Set(['carcass','floor','sts','handle']);
 // 주방 중심(모델 mm). 원점은 주방 북서 실내 모서리, X 동 / Y 북 / Z 위
@@ -276,7 +276,7 @@ async function initGL(){
   scene.add(new THREE.HemisphereLight(0xffffff,0xd9cfc0,.85));
   const sun=new THREE.DirectionalLight(0xffffff,.55);sun.position.set(-6,9,4);scene.add(sun);
   const fill=new THREE.DirectionalLight(0xffffff,.25);fill.position.set(5,6,-6);scene.add(fill);
-  let data;try{data=await (await fetch('model.json?v=2611131935',{cache:'no-cache'})).json()}catch(e){$('loading').textContent='3D 데이터를 불러오지 못했어요.';return}
+  let data;try{data=await (await fetch('model.json?v=2611131945',{cache:'no-cache'})).json()}catch(e){$('loading').textContent='3D 데이터를 불러오지 못했어요.';return}
   ctxGroup=new THREE.Group();const main=new THREE.Group();scene.add(ctxGroup,main);
   const edgeMat=new THREE.LineBasicMaterial({color:0xb9b6ae});
   for(const o of data){
