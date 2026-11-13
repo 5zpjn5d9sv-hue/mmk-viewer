@@ -95,7 +95,7 @@
   </div>
   <div class="right"><button class="icon" id="share" title="링크 복사" aria-label="링크 복사">⤴</button></div>
 </header>
-<div class="mat">도어 솔트 화이트 도장 · 키큰장 내추럴 오크 / 상판 세라믹 12T 웜그레이 / 바닥 이건마루 라르고솔레 190 T3 오크 / 벽 타일 미정</div>
+<div class="mat">도어 솔트 화이트 도장 · 왼쪽 키큰장 내추럴 오크 / 상판 세라믹 12T 웜그레이 / 바닥 이건마루 라르고솔레 190 T3 오크 / 벽 타일 미정</div>
 
 <main>
   <section id="secR">
@@ -141,10 +141,10 @@
 
 <script>
 const RENDERS=[
-  {src:'r1.jpg',thumb:'t1.jpg',title:'정면',label:'01 정면',
-   cap:'도어 솔트 화이트 도장 · 키큰장 내추럴 오크 / 상판 세라믹 12T 웜그레이'},
-  {src:'r2.jpg',thumb:'t2.jpg',title:'사선',label:'02 사선',
-   cap:'도어 솔트 화이트 도장 · 키큰장 내추럴 오크 / 상판 세라믹 12T 웜그레이'}
+  {src:'r1.jpg?v=2611131758',thumb:'t1.jpg?v=2611131758',title:'정면',label:'01 정면',
+   cap:'도어 솔트 화이트 도장 · 왼쪽 키큰장 내추럴 오크 / 상판 세라믹 12T 웜그레이'},
+  {src:'r2.jpg?v=2611131758',thumb:'t2.jpg?v=2611131758',title:'사선',label:'02 사선',
+   cap:'도어 솔트 화이트 도장 · 왼쪽 키큰장 내추럴 오크 / 상판 세라믹 12T 웜그레이'}
 ];
 let ri=0;
 const $=id=>document.getElementById(id);
@@ -242,7 +242,7 @@ async function initGL(){
   scene.add(new THREE.HemisphereLight(0xffffff,0xd9cfc0,.85));
   const sun=new THREE.DirectionalLight(0xffffff,.55);sun.position.set(-6,9,4);scene.add(sun);
   const fill=new THREE.DirectionalLight(0xffffff,.25);fill.position.set(5,6,-6);scene.add(fill);
-  let data;try{data=await (await fetch('model.json')).json()}catch(e){$('loading').textContent='3D 데이터를 불러오지 못했어요.';return}
+  let data;try{data=await (await fetch('model.json?v=2611131758',{cache:'no-cache'})).json()}catch(e){$('loading').textContent='3D 데이터를 불러오지 못했어요.';return}
   ctxGroup=new THREE.Group();const main=new THREE.Group();scene.add(ctxGroup,main);
   const edgeMat=new THREE.LineBasicMaterial({color:0xb9b6ae});
   const mats={};
