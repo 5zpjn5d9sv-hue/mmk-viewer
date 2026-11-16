@@ -133,7 +133,7 @@
       </div>
       <div class="toggles"><button id="ctx">주변 벽</button></div>
     </div>
-    <div class="fixed">상판·싱크 STS 3T 바이브레이션 / 인덕션 / 하부장 손잡이 HD007 / 상부장 손잡이 없음 / 욕실 거울장 은경 도어</div>
+    <div class="fixed">상판·싱크 STS 3T 바이브레이션 / 인덕션 / 냉장고 삼성 RB30D4051S9 / 하부장 손잡이 HD007 / 상부장 손잡이 없음 / 욕실 거울장 은경 도어</div>
     <div class="note">설계 검토용 · 렌더 이미지와 3D의 재질 표현에는 차이가 있습니다. 화면 색은 참고색이며 Alt 탭으로 바뀝니다.</div>
   </section>
 </main>
@@ -155,7 +155,7 @@ const COLORS={
 };
 const ALTS=[
   {key:1,label:'Alt1',lower:'pt09',upper:'pt09',renders:[
-    {key:'main',src:'assets/option1/main.webp',thumb:'assets/option1/main_t.webp',label:'01 주방',desc:'ㄱ자 주방 전체 구도. 싱크 쪽 줄과 인덕션·서랍장 쪽 줄, 손잡이 없는 상부장'},
+    {key:'main',src:'assets/option1/main.webp',thumb:'assets/option1/main_t.webp',label:'01 주방',desc:'ㄱ자 주방 전체 구도. 싱크 쪽 줄과 인덕션·서랍장 쪽 줄, 손잡이 없는 상부장, 냉장고(삼성 RB30D4051S9)'},
     {key:'bath',src:'assets/option1/bath.webp',thumb:'assets/option1/bath_t.webp',label:'02 욕실',desc:'세면대 위 거울장(은경 도어 두 짝)과 욕실 정면'}
   ]}
 ];
@@ -218,7 +218,7 @@ function toast(t){$('toast').textContent=t;$('toast').classList.add('on');setTim
 
 /* ---- 3D ---- */
 let glReady=false,renderer,scene,camera,controls,ctxGroup,M={};
-const BASE={Wall:0xf4f3ef,RoomDoor:0xf7f6f2,Glass:0xcfe0e6,Floor:0xd9c6a8,Carcass:0xe8e6e0,Hardware:0x9a9da0,Handle:0xc9cbcc,STS:0xb7babd,Black:0x1d1d1f,Appliance:0x6b6d70,MDF:0xb59f80,BathDoor:0xf5f3eb,Mirror:0xd5dbde,LowerFront:0xf2f2ed,UpperFront:0xf2f2ed};
+const BASE={Wall:0xf4f3ef,RoomDoor:0xf7f6f2,Glass:0xcfe0e6,Floor:0xd9c6a8,Carcass:0xe8e6e0,Hardware:0x9a9da0,Handle:0xc9cbcc,STS:0xb7babd,Black:0x1d1d1f,Appliance:0x6b6d70,MDF:0xb59f80,BathDoor:0xf5f3eb,Mirror:0xd5dbde,LowerFront:0xf2f2ed,UpperFront:0xf2f2ed,FridgeBody:0x9fa3a6,FridgeDoor:0xb3b6b8};
 /* 모델 mm: X 동, Y 북, Z 위 → three: (x, z, -y) */
 const K={x:2400,y:1600};
 const toV=(x,y,z)=>new THREE.Vector3((x-K.x)/1000,z/1000,-(y-K.y)/1000);
@@ -251,7 +251,7 @@ async function initGL(){
     const pos=new Float32Array(o.v.length);
     for(let i=0;i<o.v.length;i+=3){const v=toV(o.v[i],o.v[i+1],o.v[i+2]);pos[i]=v.x;pos[i+1]=v.y;pos[i+2]=v.z}
     const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(pos,3));g.setIndex(o.f);g.computeVertexNormals();
-    const metal=['STS','Hardware','Handle','Mirror'].includes(o.l);
+    const metal=['STS','Hardware','Handle','Mirror','FridgeBody','FridgeDoor'].includes(o.l);
     if(!M[o.l])M[o.l]=new THREE.MeshStandardMaterial({color:BASE[o.l]??0xeeeeea,roughness:metal?.35:(o.l==='Black'?.25:.9),metalness:metal?.55:0,
       transparent:o.l==='Glass',opacity:o.l==='Glass'?.35:1,side:THREE.DoubleSide,polygonOffset:true,polygonOffsetFactor:1,polygonOffsetUnits:1});
     const grp=o.c?ctxGroup:main;grp.add(new THREE.Mesh(g,M[o.l]));
