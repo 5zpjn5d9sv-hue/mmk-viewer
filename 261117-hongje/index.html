@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,viewport-fit=cover">
+<title>MMK · HJ-project · 서울 서대문구 홍제동</title>
+<meta name="description" content="HJ-project 주방. 렌더 4장과 3D 공간.">
+<meta property="og:title" content="MMK · HJ-project · 서울 서대문구 홍제동">
+<meta property="og:description" content="2가지 배색 · 렌더 4컷 · 3D 공간">
+<meta property="og:image" content="https://5zpjn5d9sv-hue.github.io/mmk-viewer/261117-hongje/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://5zpjn5d9sv-hue.github.io/mmk-viewer/261117-hongje/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="logo.png">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#f1eee8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#f1eee8;--ink:#1d1d1b;--mute:#8a867e;--line:#dcd7cd;--card:#e9e5dd}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--ink);font-family:Inter,"Noto Sans KR",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);min-height:100vh}
+  header{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px;padding:14px 22px;border-bottom:1px solid var(--line)}
+  .brand{display:flex;align-items:center;gap:14px;min-width:0}
+  .brand a{display:block}
+  .logo{height:20px;width:auto;display:block}
+  .proj{border-left:1px solid var(--line);padding-left:14px;min-width:0}
+  .proj b{display:block;font:700 13px Inter,"Noto Sans KR";white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .proj span{display:block;font-size:11px;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .seg{display:flex;background:var(--card);border-radius:999px;padding:3px}
+  .seg button{border:0;background:none;font:500 12.5px Inter,"Noto Sans KR";color:var(--ink);padding:8px 16px;border-radius:999px;cursor:pointer;white-space:nowrap}
+  .seg button.on{background:var(--ink);color:#fff}
+  .seg .n{display:inline-block;margin-left:6px;font-size:11px;opacity:.6}
+  .right{justify-self:end}
+  .icon{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:#fff;display:grid;place-items:center;cursor:pointer;font-size:14px}
+  .alts{display:flex;align-items:center;gap:12px;padding:12px 22px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .alts .tabs{display:flex;gap:6px}
+  .alts .tabs button{border:1px solid var(--line);background:#fff;font:500 12px Inter;padding:6px 12px;border-radius:999px;cursor:pointer}
+  .alts .tabs button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .alts .cap{font-size:11.5px;color:#4a4740}
+  main{max-width:1180px;margin:0 auto;padding:26px 22px 40px}
+  .eyebrow{font-size:10px;letter-spacing:.18em;color:var(--mute)}
+  .titlebar{display:flex;justify-content:space-between;align-items:baseline;margin:6px 0 14px;gap:12px}
+  .titlebar h2{font:500 19px "Noto Sans KR",Inter}
+  .count{font-size:11px;color:var(--mute);letter-spacing:.1em}
+  .stage{position:relative;background:var(--card);aspect-ratio:16/9;overflow:hidden;border-radius:2px}
+  .stage img{width:100%;height:100%;object-fit:contain;display:block;cursor:zoom-in}
+  .empty{position:absolute;inset:0;display:grid;place-items:center;text-align:center;font-size:13px;color:var(--mute);line-height:1.8}
+  .arrow{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;border:0;background:rgba(255,255,255,.92);font-size:20px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.12)}
+  .arrow.l{left:14px}.arrow.r{right:14px}
+  .zoombtn{position:absolute;right:14px;bottom:14px;border:0;background:#fff;font:500 11.5px "Noto Sans KR";padding:8px 12px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.12)}
+  .desc{margin-top:12px;font-size:12.5px;line-height:1.7;color:#4a4740}
+  .dl{display:flex;gap:8px;margin-top:12px}
+  .dl a{border:1px solid var(--line);background:#fff;color:var(--ink);text-decoration:none;font:500 11.5px "Noto Sans KR";padding:7px 12px}
+  .note{font-size:11px;color:var(--mute);margin-top:10px}
+  .thumbs{display:flex;gap:10px;justify-content:center;margin-top:20px;flex-wrap:wrap}
+  .thumbs button{border:1px solid transparent;background:none;padding:3px;cursor:pointer;text-align:left}
+  .thumbs button.on{border-color:var(--ink)}
+  .thumbs img{display:block;width:140px;aspect-ratio:16/9;object-fit:cover;background:var(--card)}
+  .thumbs span{display:block;font-size:10.5px;margin-top:4px;color:#4a4740}
+  .hide{display:none!important}
+  .space-wrap{position:relative;background:#e9e6df;aspect-ratio:16/9;border-radius:2px;overflow:hidden;touch-action:none}
+  #gl{width:100%;height:100%;display:block}
+  .views{position:absolute;left:14px;top:14px;display:flex;gap:6px;flex-wrap:wrap}
+  .views button,.toggles button{border:0;background:rgba(255,255,255,.94);font:500 11.5px "Noto Sans KR";padding:7px 11px;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+  .views button.on,.toggles button.on{background:var(--ink);color:#fff}
+  .toggles{position:absolute;right:14px;top:14px;display:flex;gap:6px}
+  .loading{position:absolute;inset:0;display:grid;place-items:center;font-size:12px;color:var(--mute)}
+  .fixed{font-size:11.5px;color:var(--mute);margin-top:10px;line-height:1.6}
+  .modal{position:fixed;inset:0;background:#111;display:none;z-index:50;touch-action:none}
+  .modal.on{display:block}
+  .modal img{position:absolute;left:50%;top:50%;max-width:none;transform-origin:0 0;user-select:none;-webkit-user-drag:none}
+  .mbar{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:12px 16px;padding-top:calc(12px + env(safe-area-inset-top));color:#fff;font-size:12px;z-index:2;background:linear-gradient(#000a,#0000)}
+  .mbar button{border:1px solid #fff5;background:#0006;color:#fff;font:500 12px "Noto Sans KR";padding:6px 10px;cursor:pointer}
+  .zoomctl{display:flex;gap:6px;align-items:center}
+  .mhint{position:absolute;bottom:calc(14px + env(safe-area-inset-bottom));left:0;right:0;text-align:center;color:#fffa;font-size:11px}
+  .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;font-size:12px;padding:8px 14px;border-radius:999px;opacity:0;transition:.2s;pointer-events:none}
+  .toast.on{opacity:1}
+  @media (max-width:720px){
+    header{grid-template-columns:1fr auto;grid-template-areas:"b r" "s s";padding:12px 14px}
+    .brand{grid-area:b}.right{grid-area:r}.seg{grid-area:s;justify-self:center}
+    .logo{height:17px}.proj{padding-left:10px}
+    .alts,main{padding-left:14px;padding-right:14px}
+    .thumbs img{width:110px}
+    .space-wrap{aspect-ratio:4/5}
+    .arrow{width:34px;height:34px}
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><a href="#images/main?option=1"><img class="logo" src="logo.png" alt="MMK"></a>
+    <div class="proj"><b>HJ-project</b><span>서울 서대문구 홍제동</span></div></div>
+  <div class="seg" role="tablist">
+    <button id="tabR" data-v="images">렌더 이미지<span class="n" id="nR"></span></button>
+    <button id="tabS" data-v="space">3D 공간</button>
+  </div>
+  <div class="right"><button class="icon" id="share" title="링크 복사" aria-label="링크 복사">⤴</button></div>
+</header>
+<div class="alts"><div class="tabs" id="altTabs"></div><div class="cap" id="altCap"></div></div>
+
+<main>
+  <section id="secR">
+    <div class="eyebrow">RENDER COLLECTION</div>
+    <div class="titlebar"><h2>전체 컷</h2><div class="count" id="rCount"></div></div>
+    <div class="stage">
+      <img id="rImg" alt="">
+      <div class="empty hide" id="rEmpty">렌더 이미지는 준비 중입니다.<br>3D 공간에서 배치와 색을 먼저 확인해 주세요.</div>
+      <button class="arrow l" id="prev" aria-label="이전">‹</button>
+      <button class="arrow r" id="next" aria-label="다음">›</button>
+      <button class="zoombtn" id="zoom">크게 보기 ⤢</button>
+    </div>
+    <div class="desc" id="rDesc"></div>
+    <div class="dl" id="dl"><a id="dlAll" download>모두 저장 ↓</a><a id="dlOne" download>원본 저장 ↓</a></div>
+    <div class="note">설계 검토용 · 렌더 이미지와 3D의 재질 표현에는 차이가 있습니다.</div>
+    <div class="thumbs" id="thumbs"></div>
+  </section>
+
+  <section id="secS" class="hide">
+    <div class="eyebrow">3D SPACE</div>
+    <div class="titlebar"><h2>3D 공간</h2><div class="count">드래그로 회전 · 두 손가락으로 확대</div></div>
+    <div class="space-wrap" id="wrap">
+      <canvas id="gl"></canvas>
+      <div class="loading" id="loading">3D 공간을 불러오는 중…</div>
+      <div class="views" id="views"><button data-c="front" class="on">01 정면</button><button data-c="diag">02 사선</button><button data-c="top">위에서</button></div>
+      <button class="zoombtn hide" id="toRender" style="bottom:14px;right:14px">이 구도 렌더 보기 ↗</button><div class="toggles"><button id="ctx">벽체 꺼짐</button></div>
+    </div>
+    <div class="fixed">상판·일체형 싱크볼 듀폰 코리안 화이트 / 인덕션 · 매립형 후드 / 냉장고 LG 디오스 오브제컬렉션 Fit &amp; Max M616GBB0M1 / 하부장 손잡이 HD007 / 상부장 손잡이 없음 / 벽 화이트 타일 / 바닥 오크 강마루</div>
+    <div class="note">설계 검토용 · 렌더 이미지와 3D의 재질 표현에는 차이가 있습니다. 화면 색은 참고색이며 Alt 탭으로 바뀝니다.</div>
+  </section>
+</main>
+
+<div class="modal" id="modal">
+  <div class="mbar"><span id="mTitle"></span>
+    <div class="zoomctl"><button id="zOut">−</button><span id="zPct">100%</span><button id="zIn">＋</button><button id="mClose">전체 컷 닫기 ×</button></div>
+  </div>
+  <img id="mImg" alt="">
+  <div class="mhint">두 손가락으로 확대 · 끌어서 이동</div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ---- 현장 설정 ---- */
+const COLORS={
+  white:{name:"Salt white 계열 화이트",code:"",gl:'#ece8e2'},
+  blue:{name:"Air blue",code:"MMK PT 13",gl:'#b7c4d1'},
+  mint:{name:"Apple mint",code:"MMK PT 07",gl:'#bac9bf'}
+};
+const ALTS=[
+  {key:1,label:'Alt1',lower:'white',upper:'blue',renders:[
+    {key:'front',src:'assets/option1/front.webp',thumb:'assets/option1/front_t.webp',label:"01 정면",desc:"인덕션 쪽 정면. 2단 서랍 3칸, 블루 상부장 4짝(몸통까지 같은 색)과 매립 후드, 화이트 타일 벽, 오른쪽 키큰장 줄"},
+    {key:'diag',src:'assets/option1/diag.webp',thumb:'assets/option1/diag_t.webp',label:"02 사선",desc:"ㄱ자 주방과 키큰장 줄. 소가전 오픈장(전자레인지·밥솥), 장 안에 맞춘 LG 키친핏 냉장고, 흰색 바깥 EP"}
+  ]},
+  {key:2,label:'Alt2',lower:'white',upper:'mint',renders:[
+    {key:'front',src:'assets/option2/front.webp',thumb:'assets/option2/front_t.webp',label:"01 정면",desc:"인덕션 쪽 정면. 2단 서랍 3칸, 민트 상부장 4짝(몸통까지 같은 색)과 매립 후드, 화이트 타일 벽, 오른쪽 키큰장 줄"},
+    {key:'diag',src:'assets/option2/diag.webp',thumb:'assets/option2/diag_t.webp',label:"02 사선",desc:"ㄱ자 주방과 키큰장 줄. 소가전 오픈장(전자레인지·밥솥), 장 안에 맞춘 LG 키친핏 냉장고, 흰색 바깥 EP"}
+  ]}
+];
+const ZIP=()=>'assets/261117_hongje_'+alt.label+'_originals.zip';
+
+/* ---- 공통 ---- */
+const $=id=>document.getElementById(id);
+let alt=ALTS[0],ri=0,cur='images';
+function capText(a){const ks=[...new Set([a.lower,a.upper])];return (ALTS.length>1?a.label+' · ':'')+[a.upper,a.lower].filter((k,i,s)=>s.indexOf(k)===i).map(k=>(COLORS[k].code?COLORS[k].code+' · ':'')+COLORS[k].name).join(' / ')}
+ALTS.forEach(a=>{const b=document.createElement('button');b.textContent=a.label;b.onclick=()=>setAlt(a.key,true);$('altTabs').appendChild(b)});
+if(ALTS.length<2)document.querySelector('.alts .tabs').classList.add('hide');
+function setAlt(k,push){alt=ALTS.find(a=>a.key===k)||ALTS[0];
+  [...$('altTabs').children].forEach((b,i)=>b.classList.toggle('on',ALTS[i]===alt));
+  $('altCap').textContent=capText(alt);applyColors();
+  ri=Math.min(ri,Math.max(0,alt.renders.length-1));showR(ri);if(push)writeHash()}
+
+/* ---- 렌더 ---- */
+function showR(i){const R=alt.renders;$('nR').textContent=ALTS.reduce((s,a)=>s+a.renders.length,0)||'';
+  const has=R.length>0;['rImg','prev','next','zoom','dl','thumbs'].forEach(id=>$(id).classList.toggle('hide',!has));$('rEmpty').classList.toggle('hide',has);
+  $('thumbs').innerHTML='';
+  if(!has){$('rCount').textContent='';$('rDesc').textContent='';return}
+  ri=(i+R.length)%R.length;const r=R[ri];
+  $('rImg').src=r.src;$('rImg').alt=r.label;$('rDesc').textContent=r.desc||'';
+  $('rCount').textContent=String(ri+1).padStart(2,'0')+' / '+String(R.length).padStart(2,'0');
+  $('dlOne').href=r.src;$('dlAll').href=ZIP();$('dlAll').textContent=alt.renders.length+'장 모두 저장 ↓';
+  R.forEach((x,k)=>{const b=document.createElement('button');b.className=k===ri?'on':'';b.innerHTML=`<img src="${x.thumb||x.src}" alt=""><span>${x.label}</span>`;b.onclick=()=>{showR(k);writeHash()};$('thumbs').appendChild(b)})}
+$('prev').onclick=()=>{showR(ri-1);writeHash()};$('next').onclick=()=>{showR(ri+1);writeHash()};
+let sx=null;$('rImg').addEventListener('touchstart',e=>{sx=e.touches[0].clientX},{passive:true});
+$('rImg').addEventListener('touchend',e=>{if(sx==null)return;const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40){showR(ri+(dx<0?1:-1));writeHash()}sx=null});
+
+/* ---- 크게 보기 ---- */
+let sc=1,tx=0,ty=0,nat={w:1,h:1},base=1;const mImg=$('mImg');
+function fit(){base=Math.min(innerWidth/nat.w,innerHeight/nat.h)}
+function apply(){const s=base*sc;mImg.style.width=nat.w*s+'px';mImg.style.height=nat.h*s+'px';mImg.style.transform=`translate(${-nat.w*s/2+tx}px,${-nat.h*s/2+ty}px)`;$('zPct').textContent=Math.round(sc*100)+'%'}
+function openM(){const r=alt.renders[ri];if(!r)return;$('mTitle').textContent=r.label;mImg.onload=()=>{nat={w:mImg.naturalWidth,h:mImg.naturalHeight};fit();sc=1;tx=ty=0;apply()};mImg.src=r.src;$('modal').classList.add('on')}
+$('zoom').onclick=openM;$('rImg').onclick=openM;$('mClose').onclick=()=>$('modal').classList.remove('on');
+document.addEventListener('keydown',e=>{if(e.key==='Escape')$('modal').classList.remove('on');if(!$('modal').classList.contains('on')&&cur==='images'&&alt.renders.length){if(e.key==='ArrowLeft'){showR(ri-1);writeHash()}if(e.key==='ArrowRight'){showR(ri+1);writeHash()}}});
+const clamp=v=>Math.min(6,Math.max(1,v));
+$('zIn').onclick=()=>{sc=clamp(sc*1.4);apply()};$('zOut').onclick=()=>{sc=clamp(sc/1.4);if(sc===1)tx=ty=0;apply()};
+$('modal').addEventListener('wheel',e=>{e.preventDefault();sc=clamp(sc*(e.deltaY<0?1.15:1/1.15));if(sc===1)tx=ty=0;apply()},{passive:false});
+const pts=new Map();let last=null,pd=0,ps=1;
+$('modal').addEventListener('pointerdown',e=>{if(e.target.tagName==='BUTTON')return;pts.set(e.pointerId,{x:e.clientX,y:e.clientY});if(pts.size===2){const[a,b]=[...pts.values()];pd=Math.hypot(a.x-b.x,a.y-b.y);ps=sc}last={x:e.clientX,y:e.clientY}});
+$('modal').addEventListener('pointermove',e=>{if(!pts.has(e.pointerId))return;pts.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  if(pts.size===2){const[a,b]=[...pts.values()];sc=clamp(ps*Math.hypot(a.x-b.x,a.y-b.y)/pd);apply()}
+  else if(sc>1&&last){tx+=e.clientX-last.x;ty+=e.clientY-last.y;last={x:e.clientX,y:e.clientY};apply()}});
+['pointerup','pointercancel','pointerleave'].forEach(t=>$('modal').addEventListener(t,e=>{pts.delete(e.pointerId);if(pts.size<2)last=null}));
+addEventListener('resize',()=>{if($('modal').classList.contains('on')){fit();apply()}});
+
+/* ---- 화면 전환과 주소 ---- */
+function writeHash(){const r=alt.renders[ri];const h=cur==='space'?'#space?option='+alt.key:'#images/'+(r?r.key:'main')+'?option='+alt.key;if(location.hash!==h)history.replaceState(null,'',h)}
+function readHash(){const h=location.hash.slice(1);const [p,q]=h.split('?');const o=+(new URLSearchParams(q||'').get('option')||1);
+  const v=p==='space'?'space':(p.startsWith('images')?'images':(ALTS.some(a=>a.renders.length)?'images':'space'));
+  setAlt(o,false);if(v==='images'){const k=p.split('/')[1];const i=alt.renders.findIndex(r=>r.key===k);if(i>=0)showR(i)}setView(v,false)}
+function setView(v,push=true){cur=v;$('secR').classList.toggle('hide',v!=='images');$('secS').classList.toggle('hide',v!=='space');
+  $('tabR').classList.toggle('on',v==='images');$('tabS').classList.toggle('on',v==='space');if(v==='space')initGL();if(push)writeHash()}
+$('tabR').onclick=()=>setView('images');$('tabS').onclick=()=>setView('space');
+addEventListener('hashchange',readHash);
+$('share').onclick=async()=>{try{await navigator.clipboard.writeText(location.href);toast('링크를 복사했어요')}catch(e){toast('주소창의 링크를 복사해 주세요')}};
+function toast(t){$('toast').textContent=t;$('toast').classList.add('on');setTimeout(()=>$('toast').classList.remove('on'),1800)}
+
+/* ---- 3D ---- */
+let curCam='front';let glReady=false,renderer,scene,camera,controls,ctxGroup,M={};
+const BASE={Wall:0xf4f3ef,RoomDoor:0xf7f6f2,Glass:0xcfe0e6,Floor:0xd9c6a8,Carcass:0xe8e6e0,Hardware:0x9a9da0,Handle:0xc9cbcc,STS:0xb7babd,Black:0x1d1d1f,Appliance:0x6b6d70,MDF:0xb59f80,BathDoor:0xf5f3eb,Mirror:0xd5dbde,LowerFront:0xf2f2ed,UpperFront:0xf2f2ed,FridgeBody:0x9fa3a6,FridgeDoor:0xb3b6b8,Tile:0xf7f7f4,Grout:0xc9c8c4};
+/* 모델 mm: X 동, Y 북, Z 위 → three: (x, z, -y) */
+const K={x:-1600,y:1250};
+const toV=(x,y,z)=>new THREE.Vector3((x-K.x)/1000,z/1000,-(y-K.y)/1000);
+const PRESET={
+  front:{pos:[-5800, 1575, 1300],tgt:[0, 1575, 1150]},
+  diag:{pos:[-6000, 2350, 1300],tgt:[-100, -401, 1150]},
+  top:{pos:[-1600, 1250, 9000],tgt:[-1600, 1240, 0]}};
+function goCam(k){const p=PRESET[k];camera.position.copy(toV(...p.pos));controls.target.copy(toV(...p.tgt));controls.update();
+  [...$('views').children].forEach(b=>b.classList.toggle('on',b.dataset.c===k));curCam=k;$('toRender').classList.toggle('hide',!alt.renders.some(r=>r.key===k))}
+function applyColors(){if(!M.LowerFront)return;M.LowerFront.color.copy(col(COLORS[alt.lower].gl));M.UpperFront.color.copy(col(COLORS[alt.upper].gl))}
+function col(hex){return new THREE.Color(hex).convertSRGBToLinear()}
+/* 재질 무늬 (캔버스로 그림) */
+function rnd(seed){return()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296}}
+function canvasTex(c,rx,ry){const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(rx,ry);t.encoding=THREE.sRGBEncoding;t.anisotropy=8;return t}
+function oakVeneer(){const c=document.createElement('canvas');c.width=512;c.height=1024;const x=c.getContext('2d');const r=rnd(7);
+  x.fillStyle='#d4b083';x.fillRect(0,0,512,1024);
+  for(let i=0;i<900;i++){const px=r()*512,w=.6+r()*2.2,l=200+r()*824,y0=r()*1024;const d=r();
+    x.strokeStyle=d<.5?`rgba(160,118,72,${.10+r()*.18})`:`rgba(236,206,160,${.10+r()*.16})`;x.lineWidth=w;x.beginPath();
+    let xx=px;x.moveTo(xx,y0);for(let y=y0;y<y0+l;y+=40){xx+=(r()-.5)*1.6;x.lineTo(xx,y)}x.stroke()}
+  return canvasTex(c,1/0.55,1/1.1)}
+function oakFloor(){const c=document.createElement('canvas');c.width=1024;c.height=1024;const x=c.getContext('2d');const r=rnd(29);const rows=8,h=1024/rows;
+  for(let j=0;j<rows;j++){let x0=-r()*600;while(x0<1024){const len=500+r()*500;const tone=200+Math.floor(r()*20);
+    x.fillStyle=`rgb(${tone},${tone-36},${tone-82})`;x.fillRect(x0,j*h,len,h);
+    for(let k=0;k<70;k++){const yy=j*h+r()*h;x.strokeStyle=r()<.5?`rgba(150,108,66,${.12+r()*.15})`:`rgba(240,214,170,${.10+r()*.12})`;x.lineWidth=.5+r()*1.6;x.beginPath();x.moveTo(x0,yy);x.bezierCurveTo(x0+len*.3,yy+(r()-.5)*4,x0+len*.7,yy+(r()-.5)*4,x0+len,yy+(r()-.5)*3);x.stroke()}
+    x.fillStyle='rgba(110,80,50,.35)';x.fillRect(x0,j*h,1.5,h);x0+=len}
+    x.fillStyle='rgba(110,80,50,.35)';x.fillRect(0,j*h,1024,1.5)}
+  return canvasTex(c,1/1.44,1/1.44)}
+function envMap(){const c=document.createElement('canvas');c.width=1024;c.height=512;const x=c.getContext('2d');
+  const g=x.createLinearGradient(0,0,0,512);g.addColorStop(0,'#ffffff');g.addColorStop(.48,'#f2ede4');g.addColorStop(.52,'#d8cdbd');g.addColorStop(1,'#a8987f');x.fillStyle=g;x.fillRect(0,0,1024,512);
+  x.fillStyle='#ffffff';x.fillRect(330,150,260,140);x.fillStyle='#fffaf0';x.fillRect(760,170,120,120);
+  const t=new THREE.CanvasTexture(c);t.mapping=THREE.EquirectangularReflectionMapping;t.encoding=THREE.sRGBEncoding;return t}
+/* 면 방향에 따라 UV를 m 단위로 붙임 */
+function boxUV(g){g=g.toNonIndexed();g.computeVertexNormals();const p=g.attributes.position,n=g.attributes.normal,uv=new Float32Array(p.count*2);
+  for(let i=0;i<p.count;i++){const ax=Math.abs(n.getX(i)),ay=Math.abs(n.getY(i)),az=Math.abs(n.getZ(i));let u,v;
+    if(ay>=ax&&ay>=az){u=p.getX(i);v=p.getZ(i)}else if(ax>=az){u=p.getZ(i);v=p.getY(i)}else{u=p.getX(i);v=p.getY(i)}uv[i*2]=u;uv[i*2+1]=v}
+  g.setAttribute('uv',new THREE.BufferAttribute(uv,2));return g}
+const PAL={Wall:'#f7f6f3',RoomDoor:'#f4f2ed',BathDoor:'#f4f2ed',Carcass:'#e8e1d3',MDF:'#b59f80',Appliance:'#6b6d70',Counter:'#f6f5f2',Leaf:'#5f7a5a',Prop:'#ece9e3',Linen:'#d3d8d4',Board:'#c8b08a'};
+function loadScript(src){return new Promise((res,rej)=>{const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s)})}
+async function initGL(){
+  if(glReady){resize();return}glReady=true;
+  try{await loadScript('https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js');
+      await loadScript('https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js');}
+  catch(e){$('loading').textContent='3D 도구를 불러오지 못했어요. 새로고침해 주세요.';glReady=false;return}
+  const cv=$('gl');
+  renderer=new THREE.WebGLRenderer({canvas:cv,antialias:true,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.75));
+  renderer.outputEncoding=THREE.sRGBEncoding;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=.85;
+  renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+  scene=new THREE.Scene();scene.background=col('#ece9e2');
+  const pm=new THREE.PMREMGenerator(renderer);const et=envMap();scene.environment=pm.fromEquirectangular(et).texture;et.dispose();pm.dispose();
+  camera=new THREE.PerspectiveCamera(55,1,0.05,200);
+  controls=new THREE.OrbitControls(camera,cv);controls.enableDamping=true;controls.dampingFactor=.08;controls.maxPolarAngle=Math.PI*0.495;controls.minDistance=.3;controls.maxDistance=30;
+  scene.add(new THREE.HemisphereLight(0xfff9ec,0x8b8170,.7));
+  const key=new THREE.DirectionalLight(0xfff6e7,1.6);key.position.set(-2.5,9,3.5);key.castShadow=true;key.shadow.mapSize.set(2048,2048);
+  Object.assign(key.shadow.camera,{left:-8,right:8,top:8,bottom:-8,near:.1,far:30});key.shadow.bias=-.0002;key.shadow.normalBias=.003;scene.add(key);
+  const fill=new THREE.DirectionalLight(0xe7efff,.6);fill.position.set(1,4,-3);scene.add(fill);
+  const floorTex=oakFloor();
+  let data;try{data=await (await fetch('model.json?v=1117h1')).json()}catch(e){$('loading').textContent='3D 데이터를 불러오지 못했어요.';return}
+  ctxGroup=new THREE.Group();ctxGroup.visible=false;const main=new THREE.Group();scene.add(ctxGroup,main);
+  const edgeMat=new THREE.LineBasicMaterial({color:col('#b7b0a4'),transparent:true,opacity:.45});
+  const base={side:THREE.DoubleSide,polygonOffset:true,polygonOffsetFactor:1,polygonOffsetUnits:1};
+  function matFor(l){if(M[l])return M[l];let m;
+    if(l==='LowerFront'||l==='UpperFront')m=new THREE.MeshPhysicalMaterial({...base,color:0xffffff,roughness:.54,envMapIntensity:.6});
+    else if(['STS','Hardware','Handle'].includes(l))m=new THREE.MeshPhysicalMaterial({...base,color:0xd9dcdd,metalness:1,roughness:.28,envMapIntensity:1.2});
+    else if(l==='FridgeBody'||l==='FridgeDoor')m=new THREE.MeshPhysicalMaterial({...base,color:col('#ece8e3'),roughness:.18,clearcoat:.6,clearcoatRoughness:.12,envMapIntensity:.7});
+    else if(l==='Mirror')m=new THREE.MeshPhysicalMaterial({...base,color:0xe6e9ea,metalness:1,roughness:.04,envMapIntensity:1.4});
+    else if(l==='Glass')m=new THREE.MeshPhysicalMaterial({...base,color:0x9fb3bd,roughness:.05,transparent:true,opacity:.35,envMapIntensity:1});
+    else if(l==='Black')m=new THREE.MeshPhysicalMaterial({...base,color:0x0b0c0e,roughness:.22,clearcoat:.5,clearcoatRoughness:.2,envMapIntensity:.3});
+    else if(l==='Tile')m=new THREE.MeshPhysicalMaterial({...base,color:col('#f6f5f1'),roughness:.18,clearcoat:.6,clearcoatRoughness:.1,envMapIntensity:.8});
+    else if(l==='Grout')m=new THREE.MeshStandardMaterial({...base,color:col('#d3d0c9'),roughness:.95});
+    else if(l==='Floor')m=new THREE.MeshStandardMaterial({...base,map:floorTex,roughness:.7,envMapIntensity:.3});
+    else m=new THREE.MeshStandardMaterial({...base,color:col(PAL[l]||'#f3f1ec'),roughness:.9,envMapIntensity:.35});
+    return M[l]=m}
+  for(const o of data){
+    const pos=new Float32Array(o.v.length);
+    for(let i=0;i<o.v.length;i+=3){const v=toV(o.v[i],o.v[i+1],o.v[i+2]);pos[i]=v.x;pos[i+1]=v.y;pos[i+2]=v.z}
+    let g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(pos,3));g.setIndex(o.f);
+    const edges=['Carcass','Hardware','Glass','Floor','MDF','Grout','Wall','Leaf','Prop','Linen','Board','STS'].includes(o.l)?null:new THREE.EdgesGeometry(g,25);
+    g=boxUV(g);
+    const mesh=new THREE.Mesh(g,matFor(o.l));mesh.castShadow=o.l!=='Glass';mesh.receiveShadow=true;
+    const grp=o.c?ctxGroup:main;grp.add(mesh);
+    if(edges)grp.add(new THREE.LineSegments(edges,edgeMat));
+  }
+  applyColors();$('loading').style.display='none';resize();goCam('front');
+  (function loop(){requestAnimationFrame(loop);controls.update();renderer.render(scene,camera)})();
+}
+function resize(){if(!renderer)return;const w=$('wrap').clientWidth,h=$('wrap').clientHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix()}
+addEventListener('resize',resize);
+$('views').addEventListener('click',e=>{const k=e.target.dataset&&e.target.dataset.c;if(k&&camera)goCam(k)});
+$('toRender').onclick=()=>{const i=alt.renders.findIndex(r=>r.key===curCam);if(i>=0){setView('images');showR(i);writeHash()}};
+$('ctx').onclick=()=>{if(!ctxGroup)return;ctxGroup.visible=!ctxGroup.visible;$('ctx').classList.toggle('on',ctxGroup.visible);$('ctx').textContent=ctxGroup.visible?'벽체 켜짐':'벽체 꺼짐'};
+
+readHash();
+</script>
+</body>
+</html>
