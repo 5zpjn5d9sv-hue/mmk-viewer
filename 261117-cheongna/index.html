@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,viewport-fit=cover">
-<title>MMK · CR-project · 인천 서구 청라동</title>
-<meta name="description" content="CR-project 주방. 렌더 3장과 3D 공간.">
-<meta property="og:title" content="MMK · CR-project · 인천 서구 청라동">
+<title>MMK · CN-project · 인천 서구 청라동</title>
+<meta name="description" content="CN-project 주방. 렌더 3장과 3D 공간.">
+<meta property="og:title" content="MMK · CN-project · 인천 서구 청라동">
 <meta property="og:description" content="1가지 배색 · 렌더 3컷 · 3D 공간">
 <meta property="og:image" content="https://5zpjn5d9sv-hue.github.io/mmk-viewer/261117-cheongna/assets/og.png">
 <meta property="og:image:width" content="1200">
@@ -93,7 +93,7 @@
 <body>
 <header>
   <div class="brand"><a href="#images/main?option=1"><img class="logo" src="logo.png" alt="MMK"></a>
-    <div class="proj"><b>CR-project</b><span>인천 서구 청라동</span></div></div>
+    <div class="proj"><b>CN-project</b><span>인천 서구 청라동</span></div></div>
   <div class="seg" role="tablist">
     <button id="tabR" data-v="images">렌더 이미지<span class="n" id="nR"></span></button>
     <button id="tabS" data-v="space">3D 공간</button>
@@ -150,12 +150,12 @@ const COLORS={
 };
 const ALTS=[
   {key:1,label:'Alt1',lower:'white',upper:'oak',renders:[
-    {key:'front',src:'assets/option1/front.webp?v=1118c3',thumb:'assets/option1/front_t.webp?v=1118c3',label:"01 정면",desc:"냉장고 줄 정면. 지금 쓰는 1도어·4도어를 한 칸에 넣고 위 장은 제품 폭대로 2짝, 오크 누드 아일랜드와 STS 상판, 왼쪽 침니 후드"},
-    {key:'diag',src:'assets/option1/diag.webp?v=1118c3',thumb:'assets/option1/diag_t.webp?v=1118c3',label:"02 전체 사선",desc:"주방 전체. 창 아래 STS 절곡 상판과 화구, 홈바 니치, 키큰장 줄과 아일랜드"},
-    {key:'homebar',src:'assets/option1/homebar.webp?v=1118c3',thumb:'assets/option1/homebar_t.webp?v=1118c3',label:"03 홈바·유리장",desc:"우드 니치에 커피머신·정수기, 위 양문 2짝. 옆 유리장은 흰 프레임 없는 흑경 큰 유리문 2짝, 유리 선반과 안쪽 따뜻한 조명"}
+    {key:'front',src:'assets/option1/front.webp?v=1118c6',thumb:'assets/option1/front_t.webp?v=1118c6',label:"01 정면",desc:"냉장고 줄 정면. 지금 쓰는 1도어·4도어를 한 칸에 넣고 위 장은 제품 폭대로 2짝, 오크 누드 아일랜드와 STS 상판, 왼쪽 침니 후드"},
+    {key:'diag',src:'assets/option1/diag.webp?v=1118c6',thumb:'assets/option1/diag_t.webp?v=1118c6',label:"02 전체 사선",desc:"주방 전체. 창 아래 STS 절곡 상판과 화구, 홈바 니치, 키큰장 줄과 아일랜드"},
+    {key:'homebar',src:'assets/option1/homebar.webp?v=1118c6',thumb:'assets/option1/homebar_t.webp?v=1118c6',label:"03 홈바·유리장",desc:"우드 니치에 커피머신·정수기, 위 양문 2짝. 옆 유리장은 흰 프레임 없는 흑경 큰 유리문 2짝, 유리 선반과 안쪽 따뜻한 조명"}
   ]}
 ];
-const ZIP='assets/261117_cheongna_originals.zip?v=1118c3';
+const ZIP='assets/261117_cheongna_originals.zip?v=1118c6';
 
 /* ---- 공통 ---- */
 const $=id=>document.getElementById(id);
@@ -274,7 +274,7 @@ async function initGL(){
   Object.assign(key.shadow.camera,{left:-8,right:8,top:8,bottom:-8,near:.1,far:30});key.shadow.bias=-.0002;key.shadow.normalBias=.003;scene.add(key);
   const fill=new THREE.DirectionalLight(0xe7efff,.6);fill.position.set(1,4,-3);scene.add(fill);
   const floorTex=oakFloor();const oakTex=oakVeneer();const oakTexH=oakVeneer();oakTexH.center.set(.5,.5);oakTexH.rotation=Math.PI/2;
-  let data;try{data=await (await fetch('model.json?v=1118c4')).json()}catch(e){$('loading').textContent='3D 데이터를 불러오지 못했어요.';return}
+  let data;try{data=await (await fetch('model.json?v=1118c5')).json()}catch(e){$('loading').textContent='3D 데이터를 불러오지 못했어요.';return}
   ctxGroup=new THREE.Group();ctxGroup.visible=false;const main=new THREE.Group();scene.add(ctxGroup,main);
   const edgeMat=new THREE.LineBasicMaterial({color:col('#b7b0a4'),transparent:true,opacity:.45});
   const base={side:THREE.DoubleSide,polygonOffset:true,polygonOffsetFactor:1,polygonOffsetUnits:1};
