@@ -150,9 +150,9 @@ const COLORS={
 };
 const ALTS=[
   {key:1,label:'Alt1',cols:['snow','sts'],renders:[
-    {key:'tall',src:'assets/option1/tall.webp?v=1119sg5',thumb:'assets/option1/tall_t.webp?v=1119sg5',label:"02 냉장고·팬트리",desc:"키친핏 냉장고 2대(무손잡이)와 위 장, 팬트리 W300(무손잡이). 오른쪽으로 수납형 아일랜드"},
-    {key:'homebar',src:'assets/option1/homebar.webp?v=1119sg5',thumb:'assets/option1/homebar_t.webp?v=1119sg5',label:"03 홈바·아일랜드",desc:"벽 폭을 채운 홈바 W1,165: 아래 양문, 라인 조명 니치, 위 PUSH 양문. 앞은 수납형 아일랜드 1,200×900(정면 서랍 4개, 뒤 여닫이+서랍)"},
-    {key:'utility',src:'assets/option1/utility.webp?v=1119sg5',thumb:'assets/option1/utility_t.webp?v=1119sg5',label:"04 보조주방",desc:"입구에서 본 보조주방: STS 상판 싱크장, LG 워시타워 W2420WDR 장(위 도어 한 짝)"}
+    {key:'tall',src:'assets/option1/tall.webp?v=1119sg6',thumb:'assets/option1/tall_t.webp?v=1119sg6',label:"02 냉장고·팬트리",desc:"키친핏 냉장고 2대(무손잡이)와 위 장, 팬트리 W300(무손잡이). 오른쪽으로 수납형 아일랜드"},
+    {key:'homebar',src:'assets/option1/homebar.webp?v=1119sg6',thumb:'assets/option1/homebar_t.webp?v=1119sg6',label:"03 홈바·아일랜드",desc:"벽 폭을 채운 홈바 W1,165: 아래 양문, 라인 조명 니치, 위 PUSH 양문. 앞은 수납형 아일랜드 1,200×900(정면 서랍 4개, 뒤 여닫이+서랍)"},
+    {key:'utility',src:'assets/option1/utility.webp?v=1119sg6',thumb:'assets/option1/utility_t.webp?v=1119sg6',label:"04 보조주방",desc:"입구에서 본 보조주방: STS 상판 싱크장, LG 워시타워 W2420WDR 장(위 도어 한 짝)"}
   ]}
 ];
 const ZIP='assets/261118_singil_renders.zip';
@@ -284,7 +284,7 @@ async function initGL(){
   Object.assign(key.shadow.camera,{left:-9,right:9,top:9,bottom:-9,near:.1,far:40});key.shadow.bias=-.0002;key.shadow.normalBias=.003;scene.add(key);
   const fill=new THREE.DirectionalLight(0xe7efff,.6);fill.position.set(1,4,-3);scene.add(fill);
   const woodTex=brownVeneer();
-  let data;try{data=await (await fetch('model.json?v=1119sg5')).json()}catch(e){$('loading').textContent='3D 데이터를 불러오지 못했어요.';return}
+  let data;try{data=await (await fetch('model.json?v=1119sg6')).json()}catch(e){$('loading').textContent='3D 데이터를 불러오지 못했어요.';return}
   ctxGroup=new THREE.Group();ctxGroup.visible=false;const main=new THREE.Group();scene.add(ctxGroup,main);
   const edgeMat=new THREE.LineBasicMaterial({color:col('#b7b0a4'),transparent:true,opacity:.45});
   const base={side:THREE.DoubleSide,polygonOffset:true,polygonOffsetFactor:1,polygonOffsetUnits:1};
