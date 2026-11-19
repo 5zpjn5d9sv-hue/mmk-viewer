@@ -128,7 +128,7 @@
       <div class="views" id="views"><button data-c="tall" class="on">02 냉장고·팬트리</button><button data-c="homebar">03 홈바·아일랜드</button><button data-c="utility">04 보조주방</button><button data-c="top">위에서</button></div>
       <button class="zoombtn hide" id="toRender" style="bottom:14px;right:14px">이 구도 렌더 보기 ↗</button><div class="toggles"><button id="ctx">벽체 꺼짐</button></div>
     </div>
-    <div class="fixed">ㄱ자 하부장 + 냉장고장(키친핏 2대)·팬트리 · MMK Essential Color PT 14 Snow grey / 하부장 손잡이 HD010 300, 상부장·냉장고·팬트리 무손잡이 / 상판 STS 3T 바이브레이션 일체형 싱크 / 인덕션 · 상부장 매립 후드 / 홈바 W1,165 D400(니치 선반·라인 조명) / 수납형 아일랜드 1,200×900 STS 3T 상판 / 보조주방 STS 상판, LG 워시타워 W2420WDR 장 / 벽 화이트 · 바닥 600×1200 무광 웜그레이 타일(확정 전)</div>
+    <div class="fixed">ㄱ자 하부장 + 냉장고장(키친핏 2대)·팬트리 · MMK Essential Color PT 14 Snow grey / 손잡이 HD007(아일랜드 HD010 300), 상부장·냉장고·팬트리 무손잡이 / 상판 STS 3T 바이브레이션 일체형 싱크 / 인덕션 · 상부장 매립 후드 / 홈바 W1,165 D400(니치 선반·라인 조명) / 수납형 아일랜드 1,200×900 STS 3T 상판 / 보조주방 STS 상판, LG 워시타워 W2420WDR 장 / 벽 화이트 · 바닥 600×1200 무광 웜그레이 타일(확정 전)</div>
     <div class="note">설계 검토용 · 렌더 이미지와 3D의 재질 표현에는 차이가 있습니다. 화면 색은 참고색입니다.</div>
   </section>
 </main>
@@ -150,9 +150,9 @@ const COLORS={
 };
 const ALTS=[
   {key:1,label:'Alt1',cols:['snow','sts'],renders:[
-    {key:'tall',src:'assets/option1/tall.webp?v=1119sg6',thumb:'assets/option1/tall_t.webp?v=1119sg6',label:"02 냉장고·팬트리",desc:"키친핏 냉장고 2대(무손잡이)와 위 장, 팬트리 W300(무손잡이). 오른쪽으로 수납형 아일랜드"},
-    {key:'homebar',src:'assets/option1/homebar.webp?v=1119sg6',thumb:'assets/option1/homebar_t.webp?v=1119sg6',label:"03 홈바·아일랜드",desc:"벽 폭을 채운 홈바 W1,165: 아래 양문, 라인 조명 니치, 위 PUSH 양문. 앞은 수납형 아일랜드 1,200×900(정면 서랍 4개, 뒤 여닫이+서랍)"},
-    {key:'utility',src:'assets/option1/utility.webp?v=1119sg6',thumb:'assets/option1/utility_t.webp?v=1119sg6',label:"04 보조주방",desc:"입구에서 본 보조주방: STS 상판 싱크장, LG 워시타워 W2420WDR 장(위 도어 한 짝)"}
+    {key:'tall',src:'assets/option1/tall.webp?v=1119sg8',thumb:'assets/option1/tall_t.webp?v=1119sg8',label:"02 냉장고·팬트리",desc:"키친핏 냉장고 2대(무손잡이)와 위 장, 팬트리 W300(무손잡이). 오른쪽으로 수납형 아일랜드"},
+    {key:'homebar',src:'assets/option1/homebar.webp?v=1119sg8',thumb:'assets/option1/homebar_t.webp?v=1119sg8',label:"03 홈바·아일랜드",desc:"벽 폭을 채운 홈바 W1,165: 아래 양문, 라인 조명 니치, 위 PUSH 양문. 앞은 수납형 아일랜드 1,200×900(정면 서랍 4개, 뒤 여닫이+서랍)"},
+    {key:'utility',src:'assets/option1/utility.webp?v=1119sg8',thumb:'assets/option1/utility_t.webp?v=1119sg8',label:"04 보조주방",desc:"입구에서 본 보조주방: STS 상판 싱크장, LG 워시타워 W2420WDR 장(위 도어 한 짝)"}
   ]}
 ];
 const ZIP='assets/261118_singil_renders.zip';
@@ -284,7 +284,7 @@ async function initGL(){
   Object.assign(key.shadow.camera,{left:-9,right:9,top:9,bottom:-9,near:.1,far:40});key.shadow.bias=-.0002;key.shadow.normalBias=.003;scene.add(key);
   const fill=new THREE.DirectionalLight(0xe7efff,.6);fill.position.set(1,4,-3);scene.add(fill);
   const woodTex=brownVeneer();
-  let data;try{data=await (await fetch('model.json?v=1119sg6')).json()}catch(e){$('loading').textContent='3D 데이터를 불러오지 못했어요.';return}
+  let data;try{data=await (await fetch('model.json?v=1119sg8')).json()}catch(e){$('loading').textContent='3D 데이터를 불러오지 못했어요.';return}
   ctxGroup=new THREE.Group();ctxGroup.visible=false;const main=new THREE.Group();scene.add(ctxGroup,main);
   const edgeMat=new THREE.LineBasicMaterial({color:col('#b7b0a4'),transparent:true,opacity:.45});
   const base={side:THREE.DoubleSide,polygonOffset:true,polygonOffsetFactor:1,polygonOffsetUnits:1};
