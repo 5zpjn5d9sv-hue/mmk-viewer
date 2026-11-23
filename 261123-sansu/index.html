@@ -184,19 +184,19 @@ const WD=[['01','Natural Oak','#bda787'],['02','Brown Oak','#7e644b'],['03','Dar
 const COLORS={sts:{name:"STS 3T",code:"",gl:'#b4b8ba'}};
 PT.forEach(([n,name,hex])=>COLORS['PT'+n]={name,code:'MMK PT '+n,chip:hex,gl:hex});
 WD.forEach(([n,name,hex])=>COLORS['WD'+n]={name,code:'MMK WD '+n,chip:hex,gl:hex,tex:'assets/tex/WD'+n+'.webp',chipImg:'assets/tex/WD'+n+'_chip.webp'});
-/* 색상 변경 칸: 하부장(Alt1 Essential Color는 도장 24색, Alt2 Essential Wood는 무늬목 4종) / 키큰장 도장 24색. 붙박이장·가전·상판·테이블은 고정 */
+/* 색상 변경 칸: 하부장은 무늬목 4종 + 도장 24색(두 Alt 모두, 사람 지시 2026-11-23 18:28) / 키큰장 도장 24색. 붙박이장·가전·상판·테이블은 고정. 테이블은 뷰어에만 둠(실사에는 없음) */
 const PTK=PT.map(p=>'PT'+p[0]),WDK=WD.map(w=>'WD'+w[0]);
-const PARTS=[{k:'Base',name:'하부장',sub:'',pickBy:{1:PTK,2:WDK}},{k:'Tall',name:'키큰장',sub:'',pick:PTK}];
+const PARTS=[{k:'Base',name:'하부장',sub:'',pick:WDK.concat(PTK)},{k:'Tall',name:'키큰장',sub:'',pick:PTK}];
 const ALTS=[
   {key:1,label:'Alt1',cols:['PT09','sts'],parts:{Base:'PT09',Tall:'PT09'},renders:[
-    {key:"main",src:"assets/option1/main.webp?v=1123s4",thumb:"assets/option1/main_t.webp?v=1123s4",label:"01 주방",desc:"거실 쪽에서 본 ㄱ자 주방. 왼쪽 가스쿡탑과 박스 후드, 정면 창 아래 싱크, 오른쪽 끝 2단 서랍"},
-    {key:"sink",src:"assets/option1/sink.webp?v=1123s4",thumb:"assets/option1/sink_t.webp?v=1123s4",label:"02 싱크 줄",desc:"싱크 줄을 정면에서 본 모습. 코너 도어, 싱크 양문, 식기세척기, 2단 서랍 순서"},
-    {key:"tall",src:"assets/option1/tall.webp?v=1123s4",thumb:"assets/option1/tall_t.webp?v=1123s4",label:"03 키큰장",desc:"벽 안쪽 자리에 넣은 키큰장. 여닫이 세 칸과 냉장고·냉동고 자리"}
+    {key:"main",src:"assets/option1/main.webp?v=1123s6",thumb:"assets/option1/main_t.webp?v=1123s6",label:"01 주방",desc:"거실 쪽에서 본 ㄱ자 주방. 왼쪽 가스쿡탑과 박스 후드, 정면 창 아래 싱크, 오른쪽 끝 2단 서랍"},
+    {key:"sink",src:"assets/option1/sink.webp?v=1123s6",thumb:"assets/option1/sink_t.webp?v=1123s6",label:"02 싱크 줄",desc:"싱크 줄을 정면에서 본 모습. 코너 도어, 싱크 양문, 식기세척기, 2단 서랍 순서"},
+    {key:"tall",src:"assets/option1/tall.webp?v=1123s6",thumb:"assets/option1/tall_t.webp?v=1123s6",label:"03 키큰장",desc:"벽 안쪽 자리에 넣은 키큰장. 여닫이 두 칸, 냉장고·냉동고 자리, 오른쪽 끝 300 팬트리"}
   ]},
   {key:2,label:'Alt2',cols:['WD01','PT09','sts'],parts:{Base:'WD01',Tall:'PT09'},renders:[
-    {key:"main",src:"assets/option2/main.webp?v=1123s4",thumb:"assets/option2/main_t.webp?v=1123s4",label:"01 주방",desc:"거실 쪽에서 본 ㄱ자 주방. 왼쪽 가스쿡탑과 박스 후드, 정면 창 아래 싱크, 오른쪽 끝 2단 서랍"},
-    {key:"sink",src:"assets/option2/sink.webp?v=1123s4",thumb:"assets/option2/sink_t.webp?v=1123s4",label:"02 싱크 줄",desc:"싱크 줄을 정면에서 본 모습. 코너 도어, 싱크 양문, 식기세척기, 2단 서랍 순서"},
-    {key:"tall",src:"assets/option2/tall.webp?v=1123s4",thumb:"assets/option2/tall_t.webp?v=1123s4",label:"03 키큰장",desc:"벽 안쪽 자리에 넣은 키큰장. 여닫이 세 칸과 냉장고·냉동고 자리"}
+    {key:"main",src:"assets/option2/main.webp?v=1123s6",thumb:"assets/option2/main_t.webp?v=1123s6",label:"01 주방",desc:"거실 쪽에서 본 ㄱ자 주방. 왼쪽 가스쿡탑과 박스 후드, 정면 창 아래 싱크, 오른쪽 끝 2단 서랍"},
+    {key:"sink",src:"assets/option2/sink.webp?v=1123s6",thumb:"assets/option2/sink_t.webp?v=1123s6",label:"02 싱크 줄",desc:"싱크 줄을 정면에서 본 모습. 코너 도어, 싱크 양문, 식기세척기, 2단 서랍 순서"},
+    {key:"tall",src:"assets/option2/tall.webp?v=1123s6",thumb:"assets/option2/tall_t.webp?v=1123s6",label:"03 키큰장",desc:"벽 안쪽 자리에 넣은 키큰장. 여닫이 두 칸, 냉장고·냉동고 자리, 오른쪽 끝 300 팬트리"}
   ]}
 ];
 const ZIP="assets/261123_sansu_renders.zip";
@@ -271,13 +271,13 @@ function setFov(){const p=PRESET[curCam];if(!p||!camera)return;const v=2*Math.at
 function goCam(k){const p=PRESET[k];curCam=k;camera.position.copy(toV(...p.pos));controls.target.copy(toV(...p.tgt));setFov();controls.update();
   HIDE.forEach(([o,hs])=>{o.visible=!hs.includes(k)});[...$('views').children].forEach(b=>b.classList.toggle('on',b.dataset.c===k));curCam=k}
 let chosen={};const TEX={};
-function woodTex(c){if(TEX[c])return TEX[c];const t=new THREE.TextureLoader().load(COLORS[c].tex+'?v=1123s4');t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(1/0.7,1/1.4);t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=renderer?renderer.capabilities.getMaxAnisotropy():8;return TEX[c]=t}
+function woodTex(c){if(TEX[c])return TEX[c];const t=new THREE.TextureLoader().load(COLORS[c].tex+'?v=1123s6');t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(1/0.7,1/1.4);t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=renderer?renderer.capabilities.getMaxAnisotropy():8;return TEX[c]=t}
 function paint(k,c){const m=M[k];if(!m||!COLORS[c]||!THREE)return;
   if(COLORS[c].tex){const t=woodTex(c);m.map=t;m.bumpMap=t;m.bumpScale=.6;m.color.set('#dcdcdc');m.roughness=.58;m.clearcoat=.15;m.clearcoatRoughness=.45}
   else{m.map=null;m.bumpMap=null;m.color.set(COLORS[c].gl);m.roughness=.6;m.clearcoat=.08;m.clearcoatRoughness=.6}
   m.needsUpdate=true}
 function applyColors(){if(!alt||!alt.parts)return;for(const k in alt.parts)paint(k,chosen[k]||alt.parts[k])}
-function drawPicker(){const body=$('cpBody');if(!body)return;body.innerHTML='';PARTS.forEach(p=>{const cur=chosen[p.k]||alt.parts[p.k];const pick=p.pickBy?p.pickBy[alt.key]:p.pick;const d=document.createElement('div');d.className='cp-group '+(COLORS[pick[0]].tex?'wd':'pt');
+function drawPicker(){const body=$('cpBody');if(!body)return;body.innerHTML='';PARTS.forEach(p=>{const cur=chosen[p.k]||alt.parts[p.k];const pick=p.pickBy?p.pickBy[alt.key]:p.pick;const d=document.createElement('div');d.className='cp-group pt';
   d.innerHTML='<div class="cp-ghead"><h4>'+p.name+(p.sub?'<small>'+p.sub+'</small>':'')+'</h4><button class="cp-orig">원래 색</button></div><div class="cp-sw"></div><div class="cp-name">'+COLORS[cur].code+'<br>'+COLORS[cur].name+'</div>';
   d.querySelector('.cp-orig').onclick=()=>{delete chosen[p.k];paint(p.k,alt.parts[p.k]);drawPicker()};
   pick.forEach(c=>{const o=COLORS[c];const b=document.createElement('button');b.style.background=o.chipImg?'url('+o.chipImg+') center/cover':o.chip;b.title=o.code+' · '+o.name;b.setAttribute('aria-label',b.title);if(cur===c)b.className='on';
@@ -337,7 +337,7 @@ async function initGL(){
   scene.add(new THREE.HemisphereLight(0xffffff,0xd8d2c6,.25));
   const fill=new THREE.DirectionalLight(0xf2f5ff,.35);fill.position.set(4,3,-5);scene.add(fill);
   const floorTex=oakFloor();
-  let data;try{data=await (await fetch('model.json?v=1123s4')).json()}catch(e){$('loading').textContent='3D 데이터를 불러오지 못했어요.';return}
+  let data;try{data=await (await fetch('model.json?v=1123s6')).json()}catch(e){$('loading').textContent='3D 데이터를 불러오지 못했어요.';return}
   ctxGroup=new THREE.Group();ctxGroup.visible=false;const main=new THREE.Group();scene.add(ctxGroup,main);
   const edgeMat=new THREE.LineBasicMaterial({color:'#8f8a80',transparent:true,opacity:.22,depthWrite:false});
   const base={side:THREE.DoubleSide,polygonOffset:true,polygonOffsetFactor:1,polygonOffsetUnits:1};
