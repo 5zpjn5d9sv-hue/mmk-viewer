@@ -101,24 +101,22 @@ MMK 3D 뷰어 (261120 현장, 2026-11-23. 템플릿: 261118 현장 뷰어. 기�
     .arrow{width:34px;height:34px}
   }
 
-  .color-panel{position:absolute;left:14px;bottom:14px;width:min(330px,calc(100% - 28px));background:rgba(250,248,244,.96);border:1px solid #e3dccf;border-radius:14px;padding:14px 16px 16px;box-shadow:0 4px 25px rgba(63,46,21,.05);z-index:3}
-  .cp-head{display:flex;justify-content:space-between;align-items:center}
-  .cp-toggle{border:0;background:none;font-size:12px;padding:0;cursor:pointer;color:inherit}
-  .cp-toggle span{display:inline-block;font-size:10px;margin-left:6px;transition:.2s}
-  .color-panel.closed .cp-toggle span{transform:rotate(-90deg)}
-  .color-panel.closed .cp-body,.color-panel.closed .cp-foot,.color-panel.closed .cp-reset{display:none}
-  .cp-reset{border:0;background:none;font-size:10px;color:#8a7b68;text-decoration:underline;text-underline-offset:2px;padding:1px 0;cursor:pointer}
-  .cp-body{margin-top:12px}
-  .cp-tabs{display:flex;gap:6px;margin-bottom:16px}
-  .cp-tabs button{border:1px solid #e3dccf;background:none;font-size:11px;padding:5px 12px;border-radius:999px;cursor:pointer;color:#6f6455}
-  .cp-tabs button.on{background:#34322b;border-color:#34322b;color:#fff}
-  .cp-tabs .cp-orig{margin-left:auto}
-  .cp-sw{display:grid;grid-template-columns:repeat(8,26px);justify-content:space-between;row-gap:14px}
-  .cp-sw button{width:26px;height:26px;border-radius:50%;border:1px solid rgba(0,0,0,.1);padding:0;cursor:pointer}
+  .space-row{display:flex;gap:12px;align-items:stretch}
+  .space-row .space-wrap{flex:1;min-width:0}
+  .color-panel{flex:none;width:176px;background:#faf8f4;border:1px solid #e3dccf;border-radius:12px;padding:14px 14px 16px;display:flex;flex-direction:column;gap:18px;overflow:hidden}
+  .cp-title{font-size:12px}
+  .cp-group{display:flex;flex-direction:column}
+  .cp-ghead{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+  .cp-ghead h4{font-weight:500;font-size:11px;margin:0}
+  .cp-ghead h4 small{display:block;font-weight:400;font-size:9px;color:#8f8272;margin-top:2px}
+  .cp-orig{border:1px solid #e3dccf;background:none;font-size:10px;padding:4px 9px;border-radius:999px;cursor:pointer;color:#6f6455;white-space:nowrap}
+  .cp-orig:hover{border-color:#34322b;color:#34322b}
+  .cp-sw{display:grid;grid-template-columns:repeat(4,28px);justify-content:space-between;row-gap:11px}
+  .cp-sw button{width:28px;height:28px;border-radius:50%;border:1px solid rgba(0,0,0,.1);padding:0;cursor:pointer}
   .cp-sw button.on{box-shadow:0 0 0 2px #faf8f4,0 0 0 3.2px #34322b}
-  .cp-name{font-size:10px;color:#6f6455;margin-top:16px;line-height:1.35;min-height:13px}
-  .cp-foot{font-size:9px;color:#8f8272;margin-top:10px}
-  @media (max-width:720px){.color-panel{left:10px;right:10px;width:auto;bottom:10px;padding:11px 12px}.cp-sw{grid-template-columns:repeat(8,26px);justify-content:space-between;row-gap:8px}}
+  .cp-name{font-size:10px;color:#6f6455;margin-top:12px;line-height:1.35;min-height:27px}
+  @media (max-width:900px){.space-row{flex-direction:column}.color-panel{width:auto}.cp-group.pt .cp-sw{grid-template-columns:repeat(8,28px)}.cp-group.wd .cp-sw{justify-content:flex-start;column-gap:16px}.cp-name{min-height:13px}}
+  @media (max-width:720px){.toggles{top:auto;right:auto;left:14px;bottom:14px}}
 </style>
 </head>
 <body>
@@ -153,12 +151,12 @@ MMK 3D 뷰어 (261120 현장, 2026-11-23. 템플릿: 261118 현장 뷰어. 기�
   <section id="secS" class="hide">
     <div class="eyebrow">3D SPACE</div>
     <div class="titlebar"><h2>3D 공간</h2><div class="count">드래그로 회전 · 두 손가락으로 확대</div></div>
-    <div class="space-wrap" id="wrap">
+    <div class="space-row"><div class="space-wrap" id="wrap">
       <canvas id="gl"></canvas>
       <div class="loading" id="loading">3D 공간을 불러오는 중…</div>
-      <div class="color-panel" id="cpanel"><div class="cp-head"><button class="cp-toggle" id="cpToggle">색상 변경 <span>⌄</span></button></div><div class="cp-body" id="cpBody"></div></div><div class="views" id="views"><button data-c="main" class="on">01 본주방</button><button data-c="tall">02 키큰장</button><button data-c="inner">03 ㄷ자 안쪽</button><button data-c="top">위에서</button></div>
+      <div class="views" id="views"><button data-c="main" class="on">01 본주방</button><button data-c="tall">02 키큰장</button><button data-c="inner">03 ㄷ자 안쪽</button><button data-c="top">위에서</button></div>
       <button class="zoombtn hide" id="toRender" style="bottom:14px;right:14px">이 구도 렌더 보기 ↗</button><div class="toggles"><button id="ctx">벽체 꺼짐</button></div>
-    </div>
+    </div><div class="color-panel" id="cpanel"><div class="cp-title">색상 변경</div><div id="cpBody" style="display:contents"></div></div></div>
     <div class="fixed">상판 STS 3T · 일체형 싱크볼 / 인덕션 · 천장까지 올린 STS 박스 후드 / 화이트 4도어 냉장고 + 3도어 김치냉장고는 임시 크기, 4도어는 문보다 80 앞으로 나옴 / 키큰장은 손잡이 없음(여는 방식 임시), 하부장·아일랜드 손잡이 HD007, 상부장은 손잡이 없음 / 하부장·키큰장 Salt white · 상부장과 아일랜드 바깥면, 테이블 Natural oak / 바닥 밝은 원목마루(임시) · 벽 화이트</div>
     <div class="note">설계 검토용 · 렌더 이미지와 3D의 재질 표현에는 차이가 있습니다. 화면 색은 참고색입니다.</div>
   </section>
@@ -187,14 +185,13 @@ const COLORS={sts:{name:"STS 3T",code:"",gl:'#b4b8ba'}};
 PT.forEach(([n,name,hex])=>COLORS['PT'+n]={name,code:'MMK PT '+n,chip:hex,gl:hex});
 WD.forEach(([n,name,hex])=>COLORS['WD'+n]={name,code:'MMK WD '+n,chip:hex,gl:hex,tex:'assets/tex/WD'+n+'.webp',chipImg:'assets/tex/WD'+n+'_chip.webp'});
 COLORS.white=COLORS.PT09;COLORS.oak=COLORS.WD01;
-/* 색상 변경 패널: 상부장 / 키큰장 탭 + 원래 색 버튼, 도장 24색 (무늬목은 고르는 칸에서 뺌. 상부장 원래 색 WD01은 원래 색 버튼으로 돌아감) */
-const PICK=PT.map(p=>'PT'+p[0]);
-const PARTS=[{k:'Upper',name:'상부장'},{k:'Tall',name:'키큰장'}];
+/* 색상 변경 패널(3D 오른쪽 세로 칸): 우드(상부장+아일랜드 바깥면) 무늬목 4종 / 키큰장 도장 24색. 테이블은 고정 */
+const PARTS=[{k:'WoodSet',name:'우드',sub:'상부장 · 아일랜드',pick:WD.map(w=>'WD'+w[0]),cls:'wd'},{k:'Tall',name:'키큰장',sub:'',pick:PT.map(p=>'PT'+p[0]),cls:'pt'}];
 const ALTS=[
-  {key:1,label:'배색',cols:['white','oak','sts'],parts:{WallFront:'PT09',Upper:'WD01',Tall:'PT09'},renders:[
-    {key:"main",src:"assets/option1/main.webp?v=1123g",thumb:"assets/option1/main_t.webp?v=1123g",label:"01 본주방",desc:"거실 쪽에서 본 주방. 아일랜드 우드 서랍 3열, 뒤로 싱크 줄과 우드 상부장, 왼쪽 STS 후드, 오른쪽 키큰장과 냉장고"},
-    {key:"tall",src:"assets/option1/tall.webp?v=1123g",thumb:"assets/option1/tall_t.webp?v=1123g",label:"02 키큰장",desc:"화이트 4도어 냉장고와 김치냉장고, 손잡이 없는 수납 키큰장 두 덩이, 앞쪽 아일랜드"},
-    {key:"inner",src:"assets/option1/inner.webp?v=1123g",thumb:"assets/option1/inner_t.webp?v=1123g",label:"03 ㄷ자 안쪽",desc:"통로에서 본 ㄷ자 안쪽. 인덕션과 STS 후드, 싱크, 우드 상부장 아래 오픈 칸"}
+  {key:1,label:'배색',cols:['white','oak','sts'],parts:{WallFront:'PT09',WoodSet:'WD01',Tall:'PT09'},renders:[
+    {key:"main",src:"assets/option1/main.webp?v=1123h",thumb:"assets/option1/main_t.webp?v=1123h",label:"01 본주방",desc:"거실 쪽에서 본 주방. 아일랜드 우드 서랍 3열, 뒤로 싱크 줄과 우드 상부장, 왼쪽 STS 후드, 오른쪽 키큰장과 냉장고"},
+    {key:"tall",src:"assets/option1/tall.webp?v=1123h",thumb:"assets/option1/tall_t.webp?v=1123h",label:"02 키큰장",desc:"화이트 4도어 냉장고와 김치냉장고, 손잡이 없는 수납 키큰장 두 덩이, 앞쪽 아일랜드"},
+    {key:"inner",src:"assets/option1/inner.webp?v=1123h",thumb:"assets/option1/inner_t.webp?v=1123h",label:"03 ㄷ자 안쪽",desc:"통로에서 본 ㄷ자 안쪽. 인덕션과 STS 후드, 싱크, 우드 상부장 아래 오픈 칸"}
   ]}
 ];
 const ZIP="assets/261120_naeson_renders.zip";
@@ -269,16 +266,16 @@ const HIDE=[];/* 렌더 때 숨긴 벽: model.json의 h에 적힌 시점에서�
 function setFov(){const p=PRESET[curCam];if(!p||!camera)return;const v=2*Math.atan(Math.tan(p.h*Math.PI/360)/camera.aspect)*180/Math.PI;camera.fov=Math.min(100,Math.max(30,v));camera.updateProjectionMatrix()}
 function goCam(k){const p=PRESET[k];curCam=k;camera.position.copy(toV(...p.pos));controls.target.copy(toV(...p.tgt));setFov();controls.update();
   HIDE.forEach(([o,hs])=>{o.visible=!hs.includes(k)});[...$('views').children].forEach(b=>b.classList.toggle('on',b.dataset.c===k));curCam=k;$('toRender').classList.toggle('hide',!alt.renders.some(r=>r.key===k))}
-let chosen={},cpPart='Upper';const TEX={};
+let chosen={};const TEX={};
 function woodTex(c){if(TEX[c])return TEX[c];const t=new THREE.TextureLoader().load(COLORS[c].tex+'?v=1');t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(1/0.7,1/1.4);t.encoding=THREE.sRGBEncoding;t.anisotropy=8;return TEX[c]=t}
 function paint(k,c){const m=M[k];if(!m||!COLORS[c])return;if(COLORS[c].tex&&window.THREE){m.map=woodTex(c);m.color.set(0xe6e6e6)}else{m.map=null;m.color.copy(col(COLORS[c].gl))}m.needsUpdate=true}
 function applyColors(){if(!alt||!alt.parts)return;for(const k in alt.parts)paint(k,chosen[k]||alt.parts[k])}
-function drawPicker(){const body=$('cpBody');if(!body)return;const cur=chosen[cpPart]||alt.parts[cpPart];
-  body.innerHTML='<div class="cp-tabs"></div><div class="cp-sw"></div><div class="cp-name">'+COLORS[cur].code+' · '+COLORS[cur].name+'</div>';
-  PARTS.forEach(p=>{const b=document.createElement('button');b.textContent=p.name;if(p.k===cpPart)b.className='on';b.onclick=()=>{cpPart=p.k;drawPicker()};body.querySelector('.cp-tabs').appendChild(b)});
-  const r=document.createElement('button');r.textContent='원래 색';r.className='cp-orig'+(cur===alt.parts[cpPart]?' off':'');r.title=COLORS[alt.parts[cpPart]].code+' · '+COLORS[alt.parts[cpPart]].name;r.onclick=()=>{delete chosen[cpPart];paint(cpPart,alt.parts[cpPart]);drawPicker()};body.querySelector('.cp-tabs').appendChild(r);
-  PICK.forEach(c=>{const o=COLORS[c];const b=document.createElement('button');b.style.background=o.chipImg?'url('+o.chipImg+') center/cover':o.chip;b.title=o.code+' · '+o.name;b.setAttribute('aria-label',b.title);if(cur===c)b.className='on';
-    b.onclick=()=>{chosen[cpPart]=c;paint(cpPart,c);drawPicker()};body.querySelector('.cp-sw').appendChild(b)})}
+function drawPicker(){const body=$('cpBody');if(!body)return;body.innerHTML='';PARTS.forEach(p=>{const cur=chosen[p.k]||alt.parts[p.k];const d=document.createElement('div');d.className='cp-group '+p.cls;
+  d.innerHTML='<div class="cp-ghead"><h4>'+p.name+(p.sub?'<small>'+p.sub+'</small>':'')+'</h4><button class="cp-orig">원래 색</button></div><div class="cp-sw"></div><div class="cp-name">'+COLORS[cur].code+'<br>'+COLORS[cur].name+'</div>';
+  d.querySelector('.cp-orig').onclick=()=>{delete chosen[p.k];paint(p.k,alt.parts[p.k]);drawPicker()};
+  p.pick.forEach(c=>{const o=COLORS[c];const b=document.createElement('button');b.style.background=o.chipImg?'url('+o.chipImg+') center/cover':o.chip;b.title=o.code+' · '+o.name;b.setAttribute('aria-label',b.title);if(cur===c)b.className='on';
+    b.onclick=()=>{chosen[p.k]=c;paint(p.k,c);drawPicker()};d.querySelector('.cp-sw').appendChild(b)});
+  body.appendChild(d)})}
 function resetColors(){chosen={};applyColors();drawPicker()}
 function col(hex){return new THREE.Color(hex).convertSRGBToLinear()}
 /* 재질 무늬 (캔버스로 그림) */
@@ -332,13 +329,13 @@ async function initGL(){
   Object.assign(key.shadow.camera,{left:-9,right:9,top:9,bottom:-9,near:.1,far:40});key.shadow.bias=-.0002;key.shadow.normalBias=.003;scene.add(key);
   const fill=new THREE.DirectionalLight(0xe7efff,.6);fill.position.set(1,4,-3);scene.add(fill);
   const woodTex=oakVeneer();M._oak=woodTex;const floorTex=oakFloor();
-  let data;try{data=await (await fetch('model.json?v=1123g')).json()}catch(e){$('loading').textContent='3D 데이터를 불러오지 못했어요.';return}
+  let data;try{data=await (await fetch('model.json?v=1123h')).json()}catch(e){$('loading').textContent='3D 데이터를 불러오지 못했어요.';return}
   ctxGroup=new THREE.Group();ctxGroup.visible=false;const main=new THREE.Group();scene.add(ctxGroup,main);
   const edgeMat=new THREE.LineBasicMaterial({color:col('#b7b0a4'),transparent:true,opacity:.45});
   const base={side:THREE.DoubleSide,polygonOffset:true,polygonOffsetFactor:1,polygonOffsetUnits:1};
   function matFor(l){if(M[l])return M[l];let m;
     if(l==='LowerFront'||l==='UpperFront')m=new THREE.MeshPhysicalMaterial({...base,color:0xffffff,roughness:.54,envMapIntensity:.6});
-    else if(['WallFront','Upper','Tall'].includes(l))m=new THREE.MeshStandardMaterial({...base,color:0xffffff,roughness:.6,envMapIntensity:.4});
+    else if(['WallFront','WoodSet','Tall'].includes(l))m=new THREE.MeshStandardMaterial({...base,color:0xffffff,roughness:.6,envMapIntensity:.4});
     else if(l==='FloorOak'||l==='FloorCtx')m=new THREE.MeshStandardMaterial({...base,map:floorTex,roughness:.7,envMapIntensity:.3});
     else if(['STS','Hardware','Handle'].includes(l))m=new THREE.MeshPhysicalMaterial({...base,color:0xd9dcdd,metalness:1,roughness:.28,envMapIntensity:1.2});
     else if(l==='FridgeBody'||l==='FridgeDoor')m=new THREE.MeshPhysicalMaterial({...base,color:col('#f2f2ef'),roughness:.5,clearcoat:.1,clearcoatRoughness:.2,envMapIntensity:.6});
@@ -372,8 +369,6 @@ $('views').addEventListener('click',e=>{const k=e.target.dataset&&e.target.datas
 $('toRender').onclick=()=>{const i=alt.renders.findIndex(r=>r.key===curCam);if(i>=0){setView('images');showR(i);writeHash()}};
 $('ctx').onclick=()=>{if(!ctxGroup)return;ctxGroup.visible=!ctxGroup.visible;$('ctx').classList.toggle('on',ctxGroup.visible);$('ctx').textContent=ctxGroup.visible?'벽체 켜짐':'벽체 꺼짐'};
 
-$('cpToggle').onclick=()=>$('cpanel').classList.toggle('closed');
-if(matchMedia('(max-width:720px)').matches)$('cpanel').classList.add('closed');
 readHash();drawPicker();
 </script>
 </body>
