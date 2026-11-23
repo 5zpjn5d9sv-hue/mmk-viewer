@@ -360,7 +360,7 @@ async function initGL(){
   Object.assign(key.shadow.camera,{left:-8,right:8,top:8,bottom:-8,near:.1,far:30});key.shadow.bias=-.0002;key.shadow.normalBias=.003;scene.add(key);
   const fill=new THREE.DirectionalLight(0xe7efff,.6);fill.position.set(-1,4,-3);scene.add(fill);
   TEX={oak:oakVeneer(),floor:oakFloor(),tile:floorTile()};
-  let data;try{data=window.__MODEL__||await (await fetch('model.json?v=20261123-1925')).json()}catch(e){$('loading').textContent='3D 데이터를 불러오지 못했어요.';return}
+  let data;try{data=window.__MODEL__||await (await fetch('model.json?v=20261123-1950')).json()}catch(e){$('loading').textContent='3D 데이터를 불러오지 못했어요.';return}
   ctxGroup=new THREE.Group();ctxGroup.visible=false;const main=new THREE.Group();scene.add(ctxGroup,main);
   const edgeMat=new THREE.LineBasicMaterial({color:col('#b7b0a4'),transparent:true,opacity:.45});const mats={};
   const base={side:THREE.DoubleSide,polygonOffset:true,polygonOffsetFactor:1,polygonOffsetUnits:1};
