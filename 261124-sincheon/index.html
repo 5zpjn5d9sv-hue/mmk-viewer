@@ -129,6 +129,12 @@ MMK 3D 뷰어 (261124 현장, 2026-11-24. 틀: 261120 현장 뷰어. 기준: 04_
 .cp-nav button:disabled{opacity:.3;cursor:default}
 .cp-nav button:not(:disabled):hover{border-color:#34322b}
 :is(.cp-group.pt,.cp-group.wd) .cp-name{margin-top:6px}
+
+/* 2026-11-24: PC에서는 3D를 화면 폭·높이에 거의 꽉 차게 (규칙 91) */
+@media (min-width:901px){
+#secS{width:calc(100vw - 48px);margin-left:calc(50% - 50vw + 24px)}
+#secS .space-wrap{aspect-ratio:auto;height:max(440px,calc(100vh - 240px))}
+}
 </style>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"}}</script>
 </head>
@@ -271,7 +277,7 @@ const PRESET={
   diag:{pos:[-2500, -600, 1350],tgt:[2700, 3550, 1350],h:54.43,s:0.415},
   top:{pos:[2700, 1880, 11000],tgt:[2700, 1890, 0],h:60}};
 const HIDE=[];/* 렌더 때 숨긴 벽: model.json의 h에 적힌 시점에서만 숨김 */
-function setFov(){const p=PRESET[curCam];if(!p||!camera)return;const v=2*Math.atan(Math.tan(p.h*Math.PI/360)/camera.aspect)*180/Math.PI;camera.fov=Math.min(100,Math.max(30,v));if(p.s){camera.setViewOffset(1000*camera.aspect,1000,0,p.s*500,1000*camera.aspect,1000)}else{camera.clearViewOffset()}camera.updateProjectionMatrix()}
+function setFov(){const p=PRESET[curCam];if(!p||!camera)return;const v=2*Math.atan(Math.tan(p.h*Math.PI/360)/Math.min(camera.aspect,16/9))*180/Math.PI;/* 16:9보다 넓으면 위아래는 그대로 두고 옆을 더 보여 줌 */camera.fov=Math.min(100,Math.max(30,v));if(p.s){camera.setViewOffset(1000*camera.aspect,1000,0,p.s*500,1000*camera.aspect,1000)}else{camera.clearViewOffset()}camera.updateProjectionMatrix()}
 function goCam(k){const p=PRESET[k];curCam=k;camera.position.copy(toV(...p.pos));controls.target.copy(toV(...p.tgt));setFov();controls.update();
   HIDE.forEach(([o,hs])=>{o.visible=!hs.includes(k)});[...$('views').children].forEach(b=>b.classList.toggle('on',b.dataset.c===k));curCam=k}
 let chosen={};const TEX={};
