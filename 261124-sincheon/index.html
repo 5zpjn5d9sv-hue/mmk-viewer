@@ -274,7 +274,7 @@ function setFov(){const p=PRESET[curCam];if(!p||!camera)return;const v=2*Math.at
 function goCam(k){const p=PRESET[k];curCam=k;camera.position.copy(toV(...p.pos));controls.target.copy(toV(...p.tgt));setFov();controls.update();
   HIDE.forEach(([o,hs])=>{o.visible=!hs.includes(k)});[...$('views').children].forEach(b=>b.classList.toggle('on',b.dataset.c===k));curCam=k}
 let chosen={};const TEX={};
-function woodTex(c){if(TEX[c])return TEX[c];const t=new THREE.TextureLoader().load(COLORS[c].tex+'?v=1124a');t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(1/0.6344,1/1.05)/* 이음 없앤 무늬목 928×1536px = 634×1050mm */;t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=renderer?renderer.capabilities.getMaxAnisotropy():8;return TEX[c]=t}
+function woodTex(c){if(TEX[c])return TEX[c];const t=new THREE.TextureLoader().load(COLORS[c].tex+'?v=1124b');t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(1/0.6344,1/1.05)/* 이음 없앤 무늬목 928×1536px = 634×1050mm */;t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=renderer?renderer.capabilities.getMaxAnisotropy():8;return TEX[c]=t}
 function paint(k,c){const m=M[k];if(!m||!COLORS[c]||!THREE)return;
   if(COLORS[c].tex){const t=woodTex(c);m.map=t;m.bumpMap=t;m.bumpScale=.15;m.color.set('#dcdcdc');m.roughness=.58;m.clearcoat=.15;m.clearcoatRoughness=.45}
   else{m.map=null;m.bumpMap=null;m.color.set(COLORS[c].gl);m.roughness=.6;m.clearcoat=.08;m.clearcoatRoughness=.6}
@@ -340,7 +340,7 @@ async function initGL(){
   scene.add(new THREE.HemisphereLight(0xffffff,0xd8d2c6,.25));
   const fill=new THREE.DirectionalLight(0xf2f5ff,.35);fill.position.set(4,3,-5);scene.add(fill);
   const floorTex=oakFloor();
-  let data;try{data=await (await fetch('model.json?v=1124a')).json()}catch(e){$('loading').textContent='3D 데이터를 불러오지 못했어요.';return}
+  let data;try{data=await (await fetch('model.json?v=1124b')).json()}catch(e){$('loading').textContent='3D 데이터를 불러오지 못했어요.';return}
   ctxGroup=new THREE.Group();ctxGroup.visible=false;const main=new THREE.Group();scene.add(ctxGroup,main);
   const edgeMat=new THREE.LineBasicMaterial({color:'#8f8a80',transparent:true,opacity:.22,depthWrite:false});
   const base={side:THREE.DoubleSide,polygonOffset:true,polygonOffsetFactor:1,polygonOffsetUnits:1};
@@ -409,5 +409,59 @@ new MutationObserver(run).observe(body,{childList:true});run();
 addEventListener('resize',()=>body.querySelectorAll('.cp-group.pt,.cp-group.wd').forEach(g=>{delete g.dataset.nav;const f=g.querySelector('.cp-foot');if(f){const nm=f.querySelector('.cp-name');if(nm)f.before(nm);f.remove()}setup(g)}));
 })();
 </script>
+<!-- 상담사용 펜 메모 (규칙 97, 2026-11-24). 주소에 ?memo=1 이 있을 때만 보임 -->
+<style>
+#memoBtn{position:fixed;right:18px;bottom:18px;z-index:60;height:46px;padding:0 18px;border-radius:999px;border:0;background:#34322b;color:#fff;font:600 14px/1 inherit;box-shadow:0 4px 14px rgba(0,0,0,.18);cursor:pointer}
+.memo-layer{position:absolute;inset:0;z-index:40;touch-action:none;cursor:crosshair}
+.memo-layer canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
+.memo-bar{position:absolute;left:50%;top:12px;transform:translateX(-50%);display:flex;gap:6px;padding:6px;background:rgba(250,248,244,.96);border:1px solid #e3dccf;border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,.12);z-index:2}
+.memo-bar button{height:36px;min-width:36px;padding:0 12px;border-radius:999px;border:1px solid #e3dccf;background:#fff;color:#34322b;font:500 13px/1 inherit;cursor:pointer;white-space:nowrap}
+.memo-bar button.on{background:#34322b;color:#fff;border-color:#34322b}
+.memo-bar .dot{width:16px;height:16px;border-radius:50%;display:inline-block;vertical-align:middle}
+.memo-hint{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);font-size:12px;color:#6f6455;background:rgba(250,248,244,.9);padding:5px 10px;border-radius:999px;pointer-events:none}
+</style>
+<script>
+(()=>{if(new URLSearchParams(location.search).get('memo')!=='1')return;
+const PROJECT='SC-project';
+const btn=document.createElement('button');btn.id='memoBtn';btn.textContent='✎ 펜 메모';document.body.appendChild(btn);
+let layer=null,cv,cx,strokes=[],curS=null,tool='red',penSeen=false;
+const COL={red:'#d62020',black:'#111'};
+function host(){return cur==='space'?document.getElementById('wrap'):document.querySelector('#secR .stage')}
+function size(){const r=layer.getBoundingClientRect(),d=devicePixelRatio||1;cv.width=Math.round(r.width*d);cv.height=Math.round(r.height*d);cx.setTransform(d,0,0,d,0,0);redraw()}
+function seg(s,a,b){cx.globalCompositeOperation=s.t==='eraser'?'destination-out':'source-over';cx.strokeStyle=s.t==='eraser'?'#000':COL[s.t];cx.lineCap=cx.lineJoin='round';cx.lineWidth=s.t==='eraser'?26:b[2];cx.beginPath();cx.moveTo(a[0],a[1]);cx.lineTo(b[0],b[1]);cx.stroke()}
+function draw(s){const p=s.p;if(p.length===1){seg(s,p[0],[p[0][0]+.01,p[0][1],p[0][2]]);return}for(let i=1;i<p.length;i++)seg(s,p[i-1],p[i])}
+function redraw(){cx.clearRect(0,0,cv.width,cv.height);strokes.forEach(draw);cx.globalCompositeOperation='source-over'}
+function pt(e){const r=cv.getBoundingClientRect();const pr=e.pointerType==='mouse'?.5:(e.pressure||.5);return[e.clientX-r.left,e.clientY-r.top,1.2+pr*4.8]}
+function down(e){if(e.pointerType==='pen')penSeen=true;if(penSeen&&e.pointerType==='touch')return;/* 펜슬을 쓰면 손가락·손바닥은 무시 */
+  e.preventDefault();cv.setPointerCapture(e.pointerId);curS={t:tool,p:[pt(e)],id:e.pointerId};strokes.push(curS);draw(curS)}
+function move(e){if(!curS||e.pointerId!==curS.id)return;e.preventDefault();const evs=e.getCoalescedEvents?e.getCoalescedEvents():[e];for(const ev of evs){const q=pt(ev),l=curS.p[curS.p.length-1];curS.p.push(q);seg(curS,l,q)}cx.globalCompositeOperation='source-over'}
+function up(e){if(curS&&e.pointerId===curS.id)curS=null}
+function open(){const h=host();if(!h)return;if(getComputedStyle(h).position==='static')h.style.position='relative';
+  if(typeof controls!=='undefined'&&controls)controls.enabled=false;/* 펜을 켜면 3D 회전·렌더 넘김이 멈춤 */
+  layer=document.createElement('div');layer.className='memo-layer';
+  layer.innerHTML='<canvas></canvas><div class="memo-bar"><button data-t="red" class="on"><span class="dot" style="background:#d62020"></span></button><button data-t="black"><span class="dot" style="background:#111"></span></button><button data-t="eraser">지우개</button><button data-a="undo">되돌리기</button><button data-a="save">이미지로 저장</button><button data-a="close">닫기</button></div><div class="memo-hint">애플펜슬로 그려 주세요</div>';
+  h.appendChild(layer);cv=layer.querySelector('canvas');cx=cv.getContext('2d');strokes=[];size();
+  cv.addEventListener('pointerdown',down);cv.addEventListener('pointermove',move);cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
+  ['touchstart','touchmove','wheel','gesturestart'].forEach(t=>layer.addEventListener(t,e=>e.preventDefault(),{passive:false}));
+  layer.querySelector('.memo-bar').addEventListener('pointerdown',e=>e.stopPropagation());
+  layer.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>{tool=b.dataset.t;layer.querySelectorAll('[data-t]').forEach(x=>x.classList.toggle('on',x===b))});
+  layer.querySelector('[data-a=undo]').onclick=()=>{strokes.pop();redraw()};
+  layer.querySelector('[data-a=save]').onclick=save;layer.querySelector('[data-a=close]').onclick=close;
+  addEventListener('resize',size);btn.style.display='none'}
+function close(){if(!layer)return;removeEventListener('resize',size);layer.remove();layer=null;if(typeof controls!=='undefined'&&controls)controls.enabled=true;btn.style.display=''}
+function stamp(){const d=new Date(),z=n=>String(n).padStart(2,'0');return d.getFullYear()+z(d.getMonth()+1)+z(d.getDate())+'_'+z(d.getHours())+z(d.getMinutes())+z(d.getSeconds())}
+async function save(){const h=host(),hr=h.getBoundingClientRect(),d=devicePixelRatio||1;
+  const out=document.createElement('canvas');out.width=Math.round(hr.width*d);out.height=Math.round(hr.height*d);const o=out.getContext('2d');o.fillStyle='#e9e6df';o.fillRect(0,0,out.width,out.height);
+  try{let bg;if(cur==='space'){if(typeof composer!=='undefined'&&composer)composer.render();bg=document.getElementById('gl')}else bg=document.getElementById('rImg');
+    if(bg){const br=bg.getBoundingClientRect();o.drawImage(bg,(br.left-hr.left)*d,(br.top-hr.top)*d,br.width*d,br.height*d)}}catch(e){}
+  o.drawImage(cv,0,0,out.width,out.height);
+  const name=PROJECT+'_메모_'+stamp()+'.png';
+  const blob=await new Promise(r=>out.toBlob(r,'image/png'));const file=new File([blob],name,{type:'image/png'});
+  try{if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:name});return}}catch(e){if(e&&e.name==='AbortError')return}
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},2000)}
+btn.onclick=open;
+})();
+</script>
+
 </body>
 </html>
