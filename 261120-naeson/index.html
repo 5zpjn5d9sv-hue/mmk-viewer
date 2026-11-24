@@ -119,16 +119,16 @@ MMK 3D 뷰어 (261120 현장, 2026-11-23. 템플릿: 261118 현장 뷰어. 기�
   @media (max-width:900px){.space-row{flex-direction:column}.color-panel{width:auto}.cp-group.pt .cp-sw{grid-template-columns:repeat(8,28px)}.cp-group.wd .cp-sw{justify-content:flex-start;column-gap:16px}.cp-name{min-height:13px}}
   @media (max-width:720px){.toggles{top:auto;right:auto;left:14px;bottom:14px}}
 
-.cp-group.pt .cp-sw{display:flex;gap:11.33px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scroll-padding-inline:4px;scrollbar-width:none;padding:5px 4px;margin:-5px -4px;grid-template-columns:none}
-.cp-group.pt .cp-sw::-webkit-scrollbar{display:none}
-.cp-group.pt .cp-sw button{flex:none}
+:is(.cp-group.pt,.cp-group.wd) .cp-sw{display:flex;gap:11.33px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scroll-padding-inline:4px;scrollbar-width:none;padding:5px 4px;margin:-5px -4px;grid-template-columns:none}
+:is(.cp-group.pt,.cp-group.wd) .cp-sw::-webkit-scrollbar{display:none}
+:is(.cp-group.pt,.cp-group.wd) .cp-sw button{flex:none}
 .cp-foot{display:flex;justify-content:space-between;align-items:flex-start;gap:6px;margin-top:10px}
 .cp-foot .cp-name{margin-top:0!important}
 .cp-nav{display:flex;align-items:center;justify-content:flex-end;gap:5px;flex:none;font-size:10px;color:#8f8272;font-variant-numeric:tabular-nums}
 .cp-nav button{width:22px;height:22px;border-radius:50%;border:1px solid #e3dccf;background:none;color:#34322b;font-size:13px;line-height:1;padding:0;cursor:pointer}
 .cp-nav button:disabled{opacity:.3;cursor:default}
 .cp-nav button:not(:disabled):hover{border-color:#34322b}
-.cp-group.pt .cp-name{margin-top:6px}
+:is(.cp-group.pt,.cp-group.wd) .cp-name{margin-top:6px}
 </style>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"}}</script>
 </head>
@@ -191,7 +191,7 @@ const PT=[['01','Salmon orange','#d8a78a'],['02','Lime yellow','#dbd9bc'],['03',
  ['13','Air blue','#bbc3ca'],['14','Snow grey','#dadbd5'],['15','Mist grey','#c6c5c2'],['16','Storm black','#444444'],
  ['17','Lavender purple','#b3a9b0'],['18','Olive green','#827f52'],['19','Cinnamon orange','#8f4a38'],['20','Mocha khaki','#594c3a'],
  ['21','Oat beige','#cbc3b5'],['22','Fig burgundy','#643433'],['23','Cherry brown','#3d1c1c'],['24','Guava pink','#e2cbc2']];
-const WD=[['01','Natural Oak','#bda787'],['02','Brown Oak','#7e644b'],['03','Dark Brown Oak','#503e30'],['04','Orange Oak','#8f5d38']];
+const WD=[['01','Natural Oak','#bda787'],['02','Brown Oak','#7e644b'],['03','Dark Brown Oak','#503e30'],['04','Orange Oak','#8f5d38'],['05','Ivory Oak','#cab89f'],['06','Grey Oak','#7c6c5e'],['07','Black Oak','#46454a']];/* 05~07: MMK 홈페이지 Finishes 견본(2026-11-24 사용자 제공) */
 const COLORS={sts:{name:"STS 3T",code:"",gl:'#b4b8ba'},cer:{name:"화이트 세라믹 12T",code:"",gl:'#f0efeb'}};
 PT.forEach(([n,name,hex])=>COLORS['PT'+n]={name,code:'MMK PT '+n,chip:hex,gl:hex});
 WD.forEach(([n,name,hex])=>COLORS['WD'+n]={name,code:'MMK WD '+n,chip:hex,gl:hex,tex:'assets/tex/WD'+n+'.webp',chipImg:'assets/tex/WD'+n+'_chip.webp'});
@@ -200,9 +200,9 @@ COLORS.white=COLORS.PT09;COLORS.oak=COLORS.WD01;
 const PARTS=[{k:'WoodSet',name:'상부장',sub:'',pick:WD.map(w=>'WD'+w[0]),cls:'wd'},{k:'Island',name:'아일랜드',sub:'',pick:WD.map(w=>'WD'+w[0]),cls:'wd'},{k:'Tall',name:'키큰장',sub:'',pick:PT.map(p=>'PT'+p[0]),cls:'pt'},{k:'Base',name:'하부장',sub:'',pick:PT.map(p=>'PT'+p[0]),cls:'pt'}];
 const ALTS=[
   {key:1,label:'배색',cols:['white','oak','cer'],parts:{WallFront:'PT09',WoodSet:'WD01',Island:'WD01',Tall:'PT09',Base:'PT09'},renders:[
-    {key:"main",src:"assets/option1/main.webp?v=1124h",thumb:"assets/option1/main_t.webp?v=1124h",label:"01 본주방",desc:"거실 쪽에서 본 주방. 화이트 세라믹 상판, 아일랜드 우드 서랍 3열, 뒤로 싱크 줄과 우드 상부장, 왼쪽 STS 후드, 오른쪽 키큰장과 냉장고"},
-    {key:"tall",src:"assets/option1/tall.webp?v=1124h",thumb:"assets/option1/tall_t.webp?v=1124h",label:"02 키큰장",desc:"화이트 4도어 냉장고와 김치냉장고, 손잡이 없는 수납 키큰장 두 덩이, 앞쪽 아일랜드"},
-    {key:"inner",src:"assets/option1/inner.webp?v=1124h",thumb:"assets/option1/inner_t.webp?v=1124h",label:"03 ㄷ자 안쪽",desc:"통로에서 본 ㄷ자 안쪽. 화이트 세라믹 상판 위 인덕션과 STS 후드, 싱크, 우드 상부장 아래 오픈 칸"}
+    {key:"main",src:"assets/option1/main.webp?v=1124i",thumb:"assets/option1/main_t.webp?v=1124i",label:"01 본주방",desc:"거실 쪽에서 본 주방. 화이트 세라믹 상판, 아일랜드 우드 서랍 3열, 뒤로 싱크 줄과 우드 상부장, 왼쪽 STS 후드, 오른쪽 키큰장과 냉장고"},
+    {key:"tall",src:"assets/option1/tall.webp?v=1124i",thumb:"assets/option1/tall_t.webp?v=1124i",label:"02 키큰장",desc:"화이트 4도어 냉장고와 김치냉장고, 손잡이 없는 수납 키큰장 두 덩이, 앞쪽 아일랜드"},
+    {key:"inner",src:"assets/option1/inner.webp?v=1124i",thumb:"assets/option1/inner_t.webp?v=1124i",label:"03 ㄷ자 안쪽",desc:"통로에서 본 ㄷ자 안쪽. 화이트 세라믹 상판 위 인덕션과 STS 후드, 싱크, 우드 상부장 아래 오픈 칸"}
   ]}
 ];
 const ZIP="assets/261120_naeson_renders.zip";
@@ -277,7 +277,7 @@ function setFov(){const p=PRESET[curCam];if(!p||!camera)return;const v=2*Math.at
 function goCam(k){const p=PRESET[k];curCam=k;camera.position.copy(toV(...p.pos));controls.target.copy(toV(...p.tgt));setFov();controls.update();
   HIDE.forEach(([o,hs])=>{o.visible=!hs.includes(k)});[...$('views').children].forEach(b=>b.classList.toggle('on',b.dataset.c===k));curCam=k}
 let chosen={};const TEX={};
-function woodTex(c){if(TEX[c])return TEX[c];const t=new THREE.TextureLoader().load(COLORS[c].tex+'?v=1124h');t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(1/0.6344,1/1.05)/* 이음 없앤 무늬목 928×1536px = 634×1050mm */;t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=renderer?renderer.capabilities.getMaxAnisotropy():8;return TEX[c]=t}
+function woodTex(c){if(TEX[c])return TEX[c];const t=new THREE.TextureLoader().load(COLORS[c].tex+'?v=1124i');t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(1/0.6344,1/1.05)/* 이음 없앤 무늬목 928×1536px = 634×1050mm */;t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=renderer?renderer.capabilities.getMaxAnisotropy():8;return TEX[c]=t}
 function paint(k,c){const m=M[k];if(!m||!COLORS[c]||!THREE)return;
   if(COLORS[c].tex){const t=woodTex(c);m.map=t;m.bumpMap=t;m.bumpScale=.15;m.color.set('#dcdcdc');m.roughness=.58;m.clearcoat=.15;m.clearcoatRoughness=.45}
   else{m.map=null;m.bumpMap=null;m.color.set(COLORS[c].gl);m.roughness=.6;m.clearcoat=.08;m.clearcoatRoughness=.6}
@@ -343,7 +343,7 @@ async function initGL(){
   scene.add(new THREE.HemisphereLight(0xffffff,0xd8d2c6,.25));
   const fill=new THREE.DirectionalLight(0xf2f5ff,.35);fill.position.set(4,3,-5);scene.add(fill);
   const floorTex=oakFloor();
-  let data;try{data=await (await fetch('model.json?v=1124h')).json()}catch(e){$('loading').textContent='3D 데이터를 불러오지 못했어요.';return}
+  let data;try{data=await (await fetch('model.json?v=1124i')).json()}catch(e){$('loading').textContent='3D 데이터를 불러오지 못했어요.';return}
   ctxGroup=new THREE.Group();ctxGroup.visible=false;const main=new THREE.Group();scene.add(ctxGroup,main);
   const edgeMat=new THREE.LineBasicMaterial({color:'#8f8a80',transparent:true,opacity:.22,depthWrite:false});
   const base={side:THREE.DoubleSide,polygonOffset:true,polygonOffsetFactor:1,polygonOffsetUnits:1};
@@ -407,9 +407,9 @@ function setup(g){const sw=g.querySelector('.cp-sw');if(!sw||g.dataset.nav)retur
   if(on>0){const p=Math.floor(on/per());sw.scrollLeft=bs[p*per()].offsetLeft-bs[0].offsetLeft}
   upd();
 }
-const run=()=>body.querySelectorAll('.cp-group.pt').forEach(setup);
+const run=()=>body.querySelectorAll('.cp-group.pt,.cp-group.wd').forEach(setup);
 new MutationObserver(run).observe(body,{childList:true});run();
-addEventListener('resize',()=>body.querySelectorAll('.cp-group.pt').forEach(g=>{delete g.dataset.nav;const f=g.querySelector('.cp-foot');if(f){const nm=f.querySelector('.cp-name');if(nm)f.before(nm);f.remove()}setup(g)}));
+addEventListener('resize',()=>body.querySelectorAll('.cp-group.pt,.cp-group.wd').forEach(g=>{delete g.dataset.nav;const f=g.querySelector('.cp-foot');if(f){const nm=f.querySelector('.cp-name');if(nm)f.before(nm);f.remove()}setup(g)}));
 })();
 </script>
 </body>
