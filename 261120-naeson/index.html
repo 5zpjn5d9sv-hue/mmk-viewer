@@ -189,9 +189,9 @@ COLORS.white=COLORS.PT09;COLORS.oak=COLORS.WD01;
 const PARTS=[{k:'WoodSet',name:'상부장 · 아일랜드',sub:'',pick:WD.map(w=>'WD'+w[0]),cls:'wd'},{k:'Tall',name:'키큰장 · 하부장',sub:'',pick:PT.map(p=>'PT'+p[0]),cls:'pt'}];
 const ALTS=[
   {key:1,label:'배색',cols:['white','oak','cer'],parts:{WallFront:'PT09',WoodSet:'WD01',Tall:'PT09'},renders:[
-    {key:"main",src:"assets/option1/main.webp?v=1124c",thumb:"assets/option1/main_t.webp?v=1124c",label:"01 본주방",desc:"거실 쪽에서 본 주방. 화이트 세라믹 상판, 아일랜드 우드 서랍 3열, 뒤로 싱크 줄과 우드 상부장, 왼쪽 STS 후드, 오른쪽 키큰장과 냉장고"},
-    {key:"tall",src:"assets/option1/tall.webp?v=1124c",thumb:"assets/option1/tall_t.webp?v=1124c",label:"02 키큰장",desc:"화이트 4도어 냉장고와 김치냉장고, 손잡이 없는 수납 키큰장 두 덩이, 앞쪽 아일랜드"},
-    {key:"inner",src:"assets/option1/inner.webp?v=1124c",thumb:"assets/option1/inner_t.webp?v=1124c",label:"03 ㄷ자 안쪽",desc:"통로에서 본 ㄷ자 안쪽. 화이트 세라믹 상판 위 인덕션과 STS 후드, 싱크, 우드 상부장 아래 오픈 칸"}
+    {key:"main",src:"assets/option1/main.webp?v=1124d",thumb:"assets/option1/main_t.webp?v=1124d",label:"01 본주방",desc:"거실 쪽에서 본 주방. 화이트 세라믹 상판, 아일랜드 우드 서랍 3열, 뒤로 싱크 줄과 우드 상부장, 왼쪽 STS 후드, 오른쪽 키큰장과 냉장고"},
+    {key:"tall",src:"assets/option1/tall.webp?v=1124d",thumb:"assets/option1/tall_t.webp?v=1124d",label:"02 키큰장",desc:"화이트 4도어 냉장고와 김치냉장고, 손잡이 없는 수납 키큰장 두 덩이, 앞쪽 아일랜드"},
+    {key:"inner",src:"assets/option1/inner.webp?v=1124d",thumb:"assets/option1/inner_t.webp?v=1124d",label:"03 ㄷ자 안쪽",desc:"통로에서 본 ㄷ자 안쪽. 화이트 세라믹 상판 위 인덕션과 STS 후드, 싱크, 우드 상부장 아래 오픈 칸"}
   ]}
 ];
 const ZIP="assets/261120_naeson_renders.zip";
@@ -266,9 +266,9 @@ function setFov(){const p=PRESET[curCam];if(!p||!camera)return;const v=2*Math.at
 function goCam(k){const p=PRESET[k];curCam=k;camera.position.copy(toV(...p.pos));controls.target.copy(toV(...p.tgt));setFov();controls.update();
   HIDE.forEach(([o,hs])=>{o.visible=!hs.includes(k)});[...$('views').children].forEach(b=>b.classList.toggle('on',b.dataset.c===k));curCam=k}
 let chosen={};const TEX={};
-function woodTex(c){if(TEX[c])return TEX[c];const t=new THREE.TextureLoader().load(COLORS[c].tex+'?v=1124c');t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(1/0.6344,1/1.05)/* 이음 없앤 무늬목 928×1536px = 634×1050mm */;t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=renderer?renderer.capabilities.getMaxAnisotropy():8;return TEX[c]=t}
+function woodTex(c){if(TEX[c])return TEX[c];const t=new THREE.TextureLoader().load(COLORS[c].tex+'?v=1124d');t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(1/0.6344,1/1.05)/* 이음 없앤 무늬목 928×1536px = 634×1050mm */;t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=renderer?renderer.capabilities.getMaxAnisotropy():8;return TEX[c]=t}
 function paint(k,c){const m=M[k];if(!m||!COLORS[c]||!THREE)return;
-  if(COLORS[c].tex){const t=woodTex(c);m.map=t;m.bumpMap=t;m.bumpScale=.6;m.color.set('#dcdcdc');m.roughness=.58;m.clearcoat=.15;m.clearcoatRoughness=.45}
+  if(COLORS[c].tex){const t=woodTex(c);m.map=t;m.bumpMap=t;m.bumpScale=.15;m.color.set('#dcdcdc');m.roughness=.58;m.clearcoat=.15;m.clearcoatRoughness=.45}
   else{m.map=null;m.bumpMap=null;m.color.set(COLORS[c].gl);m.roughness=.6;m.clearcoat=.08;m.clearcoatRoughness=.6}
   m.needsUpdate=true}
 function applyColors(){if(!alt||!alt.parts)return;for(const k in alt.parts)paint(k,chosen[k]||alt.parts[k])}
@@ -332,13 +332,13 @@ async function initGL(){
   scene.add(new THREE.HemisphereLight(0xffffff,0xd8d2c6,.25));
   const fill=new THREE.DirectionalLight(0xf2f5ff,.35);fill.position.set(4,3,-5);scene.add(fill);
   const floorTex=oakFloor();
-  let data;try{data=await (await fetch('model.json?v=1124c')).json()}catch(e){$('loading').textContent='3D 데이터를 불러오지 못했어요.';return}
+  let data;try{data=await (await fetch('model.json?v=1124d')).json()}catch(e){$('loading').textContent='3D 데이터를 불러오지 못했어요.';return}
   ctxGroup=new THREE.Group();ctxGroup.visible=false;const main=new THREE.Group();scene.add(ctxGroup,main);
   const edgeMat=new THREE.LineBasicMaterial({color:'#8f8a80',transparent:true,opacity:.22,depthWrite:false});
   const base={side:THREE.DoubleSide,polygonOffset:true,polygonOffsetFactor:1,polygonOffsetUnits:1};
   function matFor(l){if(M[l])return M[l];let m;
     if(['WallFront','WoodSet','Tall'].includes(l))m=new THREE.MeshPhysicalMaterial({...base,color:0xffffff,roughness:.6,clearcoat:.08,clearcoatRoughness:.6});
-    else if(l==='Wood'){const t=woodTex('WD01');m=new THREE.MeshPhysicalMaterial({...base,color:'#dcdcdc',map:t,bumpMap:t,bumpScale:.6,roughness:.58,clearcoat:.15,clearcoatRoughness:.45})}
+    else if(l==='Wood'){const t=woodTex('WD01');m=new THREE.MeshPhysicalMaterial({...base,color:'#dcdcdc',map:t,bumpMap:t,bumpScale:.15,roughness:.58,clearcoat:.15,clearcoatRoughness:.45})}
     else if(l==='FloorOak'||l==='FloorCtx')m=new THREE.MeshStandardMaterial({...base,map:floorTex,roughness:.72});
     /* STS 광: 기본 '조금 더'(규칙 91). '확실히'는 roughness .16, envMapIntensity 1.3 정도. 거울처럼은 하지 않음 */
     else if(l==='STS')m=new THREE.MeshPhysicalMaterial({...base,color:'#c6c9cb',metalness:1,roughness:.24,roughnessMap:BR,envMap:STUDIO,envMapIntensity:1.0});
