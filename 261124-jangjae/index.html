@@ -19,7 +19,7 @@ MMK 3D 뷰어 (261124 장재리 현장, 2026-11-24. 틀: 261124 신천동 뷰어
 <title>MMK · JJ-project · 충남 아산시 장재리</title>
 <meta name="description" content="JJ-project 주방. 렌더와 3D 공간.">
 <meta property="og:title" content="MMK · JJ-project · 충남 아산시 장재리">
-<meta property="og:description" content="2가지 배색 · 렌더 12컷 · 3D 공간">
+<meta property="og:description" content="3가지 시안 · 렌더 18컷 · 3D 공간">
 <meta property="og:image" content="https://5zpjn5d9sv-hue.github.io/mmk-viewer/261124-jangjae/assets/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -173,7 +173,7 @@ MMK 3D 뷰어 (261124 장재리 현장, 2026-11-24. 틀: 261124 신천동 뷰어
     <div class="space-row"><div class="space-wrap" id="wrap">
       <canvas id="gl"></canvas>
       <div class="loading" id="loading">3D 공간을 불러오는 중…</div>
-      <div class="views" id="views"><button data-c="main" class="on">01 본주방</button><button data-c="tall">02 냉장고 줄</button><button data-c="island">03 아일랜드</button><button data-c="nude">04 아일랜드 서랍</button><button data-c="utility1">05 세탁실</button><button data-c="utility2">06 세탁실 하부장</button><button data-c="top">위에서</button></div>
+      <div class="views" id="views"><button data-c="main" class="on">01 본주방</button><button data-c="tall">02 냉장고 줄</button><button data-c="island">03 아일랜드</button><button data-c="nude">04 아일랜드 앞판</button><button data-c="utility1">05 다용도실</button><button data-c="utility2">06 다용도실 하부장</button><button data-c="top">위에서</button></div>
       <div class="toggles"><button id="ctx">벽체 꺼짐</button></div>
     </div><div class="color-panel" id="cpanel"><div class="cp-title">색상 변경</div><div id="cpBody" style="display:contents"></div></div></div>
   </section>
@@ -198,29 +198,39 @@ const PT=[['01','Salmon orange','#d8a78a'],['02','Lime yellow','#dbd9bc'],['03',
  ['17','Lavender purple','#b3a9b0'],['18','Olive green','#827f52'],['19','Cinnamon orange','#8f4a38'],['20','Mocha khaki','#594c3a'],
  ['21','Oat beige','#cbc3b5'],['22','Fig burgundy','#643433'],['23','Cherry brown','#3d1c1c'],['24','Guava pink','#e2cbc2']];
 const WD=[['01','Natural Oak','#bda787'],['02','Brown Oak','#7e644b'],['03','Dark Brown Oak','#503e30'],['04','Orange Oak','#8f5d38'],['05','Ivory Oak','#cab89f'],['06','Grey Oak','#7c6c5e'],['07','Black Oak','#46454a']];/* 05~07: MMK 홈페이지 Finishes 견본(2026-11-24 사용자 제공) */
-const COLORS={cer:{name:"다나에 세라믹 12T",code:"",gl:'#ccc1b5'},ext:{name:"아일랜드 Extrude",code:"",gl:'#bda787'},nude:{name:"아일랜드 Nude",code:"",gl:'#bda787'}};
+const COLORS={cer:{name:"다나에 세라믹 12T",code:"",gl:'#ccc1b5'},ess:{name:"아일랜드 Essential",code:"",gl:'#bda787'},ext:{name:"아일랜드 Extrude",code:"",gl:'#bda787'},nude:{name:"아일랜드 Nude",code:"",gl:'#bda787'}};
 PT.forEach(([n,name,hex])=>COLORS['PT'+n]={name,code:'MMK PT '+n,chip:hex,gl:hex});
 WD.forEach(([n,name,hex])=>COLORS['WD'+n]={name,code:'MMK WD '+n,chip:hex,gl:hex,tex:'assets/tex/WD'+n+'.webp',chipImg:'assets/tex/WD'+n+'_chip.webp'});
 COLORS.white=COLORS.PT09;COLORS.oak=COLORS.WD01;
-/* 색상 변경 칸(3D 오른쪽 세로): 상부장은 도장이라 도장 24색(Claude 해석, provisional). 아일랜드 무늬목 7종, 키큰장·하부장 도장 24색.
-   고정: 상판·미드웨이 아래 벽(다나에 세라믹), 미드웨이 우드 선반·위 벽판(WD01), 가전, 손잡이 */
-const PARTS=[{k:'Upper',name:'상부장',sub:'',pick:PT.map(p=>'PT'+p[0]),cls:'pt'},{k:'Island',name:'아일랜드',sub:'',pick:WD.map(w=>'WD'+w[0]),cls:'wd'},{k:'Tall',name:'키큰장',sub:'',pick:PT.map(p=>'PT'+p[0]),cls:'pt'},{k:'Base',name:'하부장',sub:'',pick:PT.map(p=>'PT'+p[0]),cls:'pt'}];
+/* 색상 변경 칸(3D 오른쪽 세로): 본주방 장(상부장·키큰장·하부장)과 아일랜드는 무늬목이라 우드 칩 7종, 다용도실은 도장 24색(Claude 해석, provisional).
+   고정: 상판·미드웨이 아래 벽(다나에 세라믹), 미드웨이 우드 선반·위 벽판(WD01), 냉장고(실버)·가전, 손잡이 */
+const WDP=WD.map(w=>'WD'+w[0]),PTP=PT.map(p=>'PT'+p[0]);
+const PARTS=[{k:'Upper',name:'상부장',sub:'',pick:WDP,cls:'wd'},{k:'Island',name:'아일랜드',sub:'',pick:WDP,cls:'wd'},{k:'Tall',name:'키큰장',sub:'',pick:WDP,cls:'wd'},{k:'Base',name:'하부장',sub:'',pick:WDP,cls:'wd'},{k:'Utility',name:'다용도실',sub:'',pick:PTP,cls:'pt'}];
+const P0={Upper:'WD01',Island:'WD01',Tall:'WD01',Base:'WD01',Utility:'PT09'};
 const ALTS=[
-  {key:1,label:'Alt1',cols:['ext','white','oak','cer'],parts:{Upper:'PT09',Island:'WD01',Tall:'PT09',Base:'PT09'},renders:[
-    {key:"main",src:"assets/option1/main.webp?v=1124m",thumb:"assets/option1/main_t.webp?v=1124m",label:"01 본주방",desc:"거실 쪽에서 본 주방. WD 01 우드 아일랜드(Extrude 서랍, 바스툴 자리), 안쪽 다나에 세라믹 벽과 우드 선반, Salt white 장"},
-    {key:"tall",src:"assets/option1/tall.webp?v=1124m",thumb:"assets/option1/tall_t.webp?v=1124m",label:"02 냉장고 줄",desc:"인덕션 쪽에서 본 냉장고 줄. 우드 선반과 다나에 세라믹 벽, 같은 키의 냉장고·와인셀러, 아일랜드 싱크"},
-    {key:"island",src:"assets/option1/island.webp?v=1124m",thumb:"assets/option1/island_t.webp?v=1124m",label:"03 아일랜드",desc:"아일랜드 긴 변. Extrude 2단 서랍과 원목 갈고리 핸들, 세로 유닛, 식기세척기 칸, 다나에 세라믹 상판"},
-    {key:"nude",src:"assets/option1/nude.webp?v=1124m",thumb:"assets/option1/nude_t.webp?v=1124m",label:"04 아일랜드 서랍",desc:"아일랜드 서랍 가까이. Extrude 원목 갈고리 핸들과 25 앞으로 나온 세로 유닛"},
-    {key:"utility1",src:"assets/option1/utility1.webp?v=1124m",thumb:"assets/option1/utility1_t.webp?v=1124m",label:"05 세탁실",desc:"세탁실 입구에서 안쪽. 왼쪽 하부장 540 × 4와 아이보리 상판, 오른쪽 키큰장 540 × 4"},
-    {key:"utility2",src:"assets/option1/utility2.webp?v=1124m",thumb:"assets/option1/utility2_t.webp?v=1124m",label:"06 세탁실 하부장",desc:"세탁실 안쪽에서 본 하부장 네 칸과 첫 칸 싱크"}
+  {key:1,label:'Alt1',cols:['ess','oak','white','cer'],parts:P0,renders:[
+    {key:"main",src:"assets/option1/main.webp?v=1125a",thumb:"assets/option1/main_t.webp?v=1125a",label:"01 본주방",desc:"거실 쪽에서 본 주방. WD 01 우드 장과 아일랜드, 다나에 세라믹 상판과 미드웨이 벽, 우드 선반 · 아일랜드 Essential"},
+    {key:"tall",src:"assets/option1/tall.webp?v=1125a",thumb:"assets/option1/tall_t.webp?v=1125a",label:"02 냉장고 줄",desc:"인덕션 쪽에서 본 냉장고 줄. 실버 냉장고 양문과 와인셀러가 같은 키로 서 있고, 우드 선반과 다나에 세라믹 벽"},
+    {key:"island",src:"assets/option1/island.webp?v=1125a",thumb:"assets/option1/island_t.webp?v=1125a",label:"03 아일랜드",desc:"아일랜드 긴 변. 여닫이와 HD007 손잡이, 식기세척기 칸, 남쪽 2단 서랍, 다나에 세라믹 상판"},
+    {key:"nude",src:"assets/option1/nude.webp?v=1125a",thumb:"assets/option1/nude_t.webp?v=1125a",label:"04 아일랜드 앞판",desc:"아일랜드 앞판 가까이. 상단 가운데 HD007 손잡이"},
+    {key:"utility1",src:"assets/option1/utility1.webp?v=1125a",thumb:"assets/option1/utility1_t.webp?v=1125a",label:"05 다용도실",desc:"다용도실 입구에서 안쪽. 상부장 540 × 4, 손잡이 없는 하부장과 아이보리 상판, 오른쪽 키큰장 540 × 4"},
+    {key:"utility2",src:"assets/option1/utility2.webp?v=1125a",thumb:"assets/option1/utility2_t.webp?v=1125a",label:"06 다용도실 하부장",desc:"다용도실 안쪽에서 본 하부장과 첫 칸 싱크, 상부장 아래 창"}
   ]},
-  {key:2,label:'Alt2',cols:['nude','white','oak','cer'],parts:{Upper:'PT09',Island:'WD01',Tall:'PT09',Base:'PT09'},renders:[
-    {key:"main",src:"assets/option2/main.webp?v=1124m",thumb:"assets/option2/main_t.webp?v=1124m",label:"01 본주방",desc:"거실 쪽에서 본 주방. WD 01 우드 아일랜드(Nude, 바스툴 자리), 안쪽 다나에 세라믹 벽과 우드 선반, Salt white 장"},
-    {key:"tall",src:"assets/option2/tall.webp?v=1124m",thumb:"assets/option2/tall_t.webp?v=1124m",label:"02 냉장고 줄",desc:"인덕션 쪽에서 본 냉장고 줄. 우드 선반과 다나에 세라믹 벽, 같은 키의 냉장고·와인셀러, 아일랜드 싱크"},
-    {key:"island",src:"assets/option2/island.webp?v=1124m",thumb:"assets/option2/island_t.webp?v=1124m",label:"03 아일랜드",desc:"아일랜드 긴 변. Nude 여닫이, 장 사이 세로 심, 22 손걸이 틈, 식기세척기 칸, 다나에 세라믹 상판"},
-    {key:"nude",src:"assets/option2/nude.webp?v=1124m",thumb:"assets/option2/nude_t.webp?v=1124m",label:"04 아일랜드 서랍",desc:"아일랜드 서랍 가까이. 10 앞으로 나온 세로 심, 22 손걸이 틈과 SUS 라이닝"},
-    {key:"utility1",src:"assets/option2/utility1.webp?v=1124m",thumb:"assets/option2/utility1_t.webp?v=1124m",label:"05 세탁실",desc:"세탁실 입구에서 안쪽. 왼쪽 하부장 540 × 4와 아이보리 상판, 오른쪽 키큰장 540 × 4"},
-    {key:"utility2",src:"assets/option2/utility2.webp?v=1124m",thumb:"assets/option2/utility2_t.webp?v=1124m",label:"06 세탁실 하부장",desc:"세탁실 안쪽에서 본 하부장 네 칸과 첫 칸 싱크"}
+  {key:2,label:'Alt2',cols:['ext','oak','white','cer'],parts:P0,renders:[
+    {key:"main",src:"assets/option2/main.webp?v=1125a",thumb:"assets/option2/main_t.webp?v=1125a",label:"01 본주방",desc:"거실 쪽에서 본 주방. WD 01 우드 장과 아일랜드, 다나에 세라믹 상판과 미드웨이 벽, 우드 선반 · 아일랜드 Extrude"},
+    {key:"tall",src:"assets/option2/tall.webp?v=1125a",thumb:"assets/option2/tall_t.webp?v=1125a",label:"02 냉장고 줄",desc:"인덕션 쪽에서 본 냉장고 줄. 실버 냉장고 양문과 와인셀러가 같은 키로 서 있고, 우드 선반과 다나에 세라믹 벽"},
+    {key:"island",src:"assets/option2/island.webp?v=1125a",thumb:"assets/option2/island_t.webp?v=1125a",label:"03 아일랜드",desc:"아일랜드 긴 변. 2단 서랍과 원목 갈고리 핸들, 세로 유닛, 식기세척기 칸, 다나에 세라믹 상판"},
+    {key:"nude",src:"assets/option2/nude.webp?v=1125a",thumb:"assets/option2/nude_t.webp?v=1125a",label:"04 아일랜드 앞판",desc:"아일랜드 서랍 가까이. 원목 갈고리 핸들과 25 앞으로 나온 세로 유닛"},
+    {key:"utility1",src:"assets/option2/utility1.webp?v=1125a",thumb:"assets/option2/utility1_t.webp?v=1125a",label:"05 다용도실",desc:"다용도실 입구에서 안쪽. 상부장 540 × 4, 손잡이 없는 하부장과 아이보리 상판, 오른쪽 키큰장 540 × 4"},
+    {key:"utility2",src:"assets/option2/utility2.webp?v=1125a",thumb:"assets/option2/utility2_t.webp?v=1125a",label:"06 다용도실 하부장",desc:"다용도실 안쪽에서 본 하부장과 첫 칸 싱크, 상부장 아래 창"}
+  ]},
+  {key:3,label:'Alt3',cols:['nude','oak','white','cer'],parts:P0,renders:[
+    {key:"main",src:"assets/option3/main.webp?v=1125a",thumb:"assets/option3/main_t.webp?v=1125a",label:"01 본주방",desc:"거실 쪽에서 본 주방. WD 01 우드 장과 아일랜드, 다나에 세라믹 상판과 미드웨이 벽, 우드 선반 · 아일랜드 Nude"},
+    {key:"tall",src:"assets/option3/tall.webp?v=1125a",thumb:"assets/option3/tall_t.webp?v=1125a",label:"02 냉장고 줄",desc:"인덕션 쪽에서 본 냉장고 줄. 실버 냉장고 양문과 와인셀러가 같은 키로 서 있고, 우드 선반과 다나에 세라믹 벽"},
+    {key:"island",src:"assets/option3/island.webp?v=1125a",thumb:"assets/option3/island_t.webp?v=1125a",label:"03 아일랜드",desc:"아일랜드 긴 변. 장 사이 세로 심, 22 손걸이 틈과 SUS 라이닝, 식기세척기 칸, 다나에 세라믹 상판"},
+    {key:"nude",src:"assets/option3/nude.webp?v=1125a",thumb:"assets/option3/nude_t.webp?v=1125a",label:"04 아일랜드 앞판",desc:"아일랜드 앞판 가까이. 10 앞으로 나온 세로 심, 22 손걸이 틈과 SUS 라이닝"},
+    {key:"utility1",src:"assets/option3/utility1.webp?v=1125a",thumb:"assets/option3/utility1_t.webp?v=1125a",label:"05 다용도실",desc:"다용도실 입구에서 안쪽. 상부장 540 × 4, 손잡이 없는 하부장과 아이보리 상판, 오른쪽 키큰장 540 × 4"},
+    {key:"utility2",src:"assets/option3/utility2.webp?v=1125a",thumb:"assets/option3/utility2_t.webp?v=1125a",label:"06 다용도실 하부장",desc:"다용도실 안쪽에서 본 하부장과 첫 칸 싱크, 상부장 아래 창"}
   ]}
 ];
 const ZIP="assets/261124_jangjae_renders.zip";
@@ -290,15 +300,15 @@ const PRESET={
   tall:{pos:[1730, -1635, 1270],tgt:[4000, -515, 1270],h:58.72,s:-0.06},
   island:{pos:[-1290, -840, 1200],tgt:[1210, -2110, 1200],h:55.79,s:0.58},
   nude:{pos:[2840, -3670, 1000],tgt:[2218.5, -2861.2, 653],h:50.69},
-  utility1:{pos:[5410, -1360, 1200],tgt:[7650, -1440, 1200],h:58.72,s:0.34},
-  utility2:{pos:[9090, -1870, 1200],tgt:[7080, -395, 1200],h:58.72,s:0.52},
+  utility1:{pos:[5410, -1420, 1310],tgt:[7500, -1060, 1310],h:58.72,s:0.2},
+  utility2:{pos:[9190, -1740, 1330],tgt:[7060, -375, 1330],h:58.72,s:0.036},
   top:{pos:[3800, -1500, 11000],tgt:[3800, -1490, 0],h:60}};
 const HIDE=[];const ALTG=[];function applyAltGeo(){ALTG.forEach(([m,a])=>{m.visible=a===alt.key})}/* Alt1 Extrude / Alt2 Nude 아일랜드 형상 *//* 렌더 때 숨긴 벽: model.json의 h에 적힌 시점에서만 숨김 */
 function setFov(){const p=PRESET[curCam];if(!p||!camera)return;const v=2*Math.atan(Math.tan(p.h*Math.PI/360)/Math.min(camera.aspect,16/9))*180/Math.PI;/* 16:9보다 넓으면 위아래는 그대로 두고 옆을 더 보여 줌 */camera.fov=Math.min(100,Math.max(30,v));if(p.s){camera.setViewOffset(1000*camera.aspect,1000,0,p.s*500,1000*camera.aspect,1000)}else{camera.clearViewOffset()}camera.updateProjectionMatrix()}
 function goCam(k){const p=PRESET[k];curCam=k;camera.position.copy(toV(...p.pos));controls.target.copy(toV(...p.tgt));setFov();controls.update();
   HIDE.forEach(([o,hs])=>{o.visible=!hs.includes(k)});[...$('views').children].forEach(b=>b.classList.toggle('on',b.dataset.c===k));curCam=k}
 let chosen={};const TEX={};
-function woodTex(c){if(TEX[c])return TEX[c];const t=new THREE.TextureLoader().load(COLORS[c].tex+'?v=1124m');t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(1/0.6344,1/1.05)/* 이음 없앤 무늬목 928×1536px = 634×1050mm */;t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=renderer?renderer.capabilities.getMaxAnisotropy():8;return TEX[c]=t}
+function woodTex(c){if(TEX[c])return TEX[c];const t=new THREE.TextureLoader().load(COLORS[c].tex+'?v=1125a');t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(1/0.6344,1/1.05)/* 이음 없앤 무늬목 928×1536px = 634×1050mm */;t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=renderer?renderer.capabilities.getMaxAnisotropy():8;return TEX[c]=t}
 function paint(k,c){const m=M[k];if(!m||!COLORS[c]||!THREE)return;
   if(COLORS[c].tex){const t=woodTex(c);m.map=t;m.bumpMap=t;m.bumpScale=.15;m.color.set('#dcdcdc');m.roughness=.58;m.clearcoat=.15;m.clearcoatRoughness=.45}
   else{m.map=null;m.bumpMap=null;m.color.set(COLORS[c].gl);m.roughness=.6;m.clearcoat=.08;m.clearcoatRoughness=.6}
@@ -364,12 +374,12 @@ async function initGL(){
   scene.add(new THREE.HemisphereLight(0xffffff,0xd8d2c6,.25));
   const fill=new THREE.DirectionalLight(0xf2f5ff,.35);fill.position.set(4,3,-5);scene.add(fill);
   const floorTex=oakFloor();
-  let data;try{data=await (await fetch('model.json?v=1124m')).json()}catch(e){$('loading').textContent='3D 데이터를 불러오지 못했어요.';return}
+  let data;try{data=await (await fetch('model.json?v=1125a')).json()}catch(e){$('loading').textContent='3D 데이터를 불러오지 못했어요.';return}
   ctxGroup=new THREE.Group();ctxGroup.visible=false;const main=new THREE.Group();scene.add(ctxGroup,main);
   const edgeMat=new THREE.LineBasicMaterial({color:'#8f8a80',transparent:true,opacity:.22,depthWrite:false});
   const base={side:THREE.DoubleSide,polygonOffset:true,polygonOffsetFactor:1,polygonOffsetUnits:1};
   function matFor(l){if(M[l])return M[l];let m;
-    if(['Upper','Island','Tall','Base'].includes(l))m=new THREE.MeshPhysicalMaterial({...base,color:0xffffff,roughness:.6,clearcoat:.08,clearcoatRoughness:.6});
+    if(['Upper','Island','Tall','Base','Utility'].includes(l))m=new THREE.MeshPhysicalMaterial({...base,color:0xffffff,roughness:.6,clearcoat:.08,clearcoatRoughness:.6});
     else if(l==='Wood'){const t=woodTex('WD01');m=new THREE.MeshPhysicalMaterial({...base,color:'#dcdcdc',map:t,bumpMap:t,bumpScale:.15,roughness:.58,clearcoat:.15,clearcoatRoughness:.45})}
     else if(l==='FloorOak'||l==='FloorCtx')m=new THREE.MeshStandardMaterial({...base,map:floorTex,roughness:.72});
     /* STS 광: 기본 '조금 더'(규칙 91). '확실히'는 roughness .16, envMapIntensity 1.3 정도. 거울처럼은 하지 않음 */
