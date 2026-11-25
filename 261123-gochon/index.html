@@ -208,8 +208,8 @@ COLORS.white=COLORS.PT09;COLORS.oak=COLORS.WD01;
 const PARTS=[{k:'Island',name:'반도형 아일랜드',sub:'',pick:PT.map(p=>'PT'+p[0]),cls:'pt'},{k:'Tall',name:'키큰장',sub:'',pick:PT.map(p=>'PT'+p[0]),cls:'pt'},{k:'Base',name:'하부장',sub:'',pick:PT.map(p=>'PT'+p[0]),cls:'pt'}];
 const ALTS=[
   {key:1,label:'Alt1',cols:['PT18','sts'],parts:{Island:'PT18',Tall:'PT18',Base:'PT18'},renders:[
-    {key:"diag",src:"assets/option1/diag.webp?v=1125a",thumb:"assets/option1/diag_t.webp?v=1125a",label:"01 사선",desc:"다이닝 쪽에서 본 ㄷ자 주방. 반도형 아일랜드(다이닝 쪽 2단 서랍 3열), 창 아래 싱크, 왼쪽 벽 인덕션과 침니 후드, 오른쪽 키큰장(인출장·냉장고·오븐장·선반장)"},
-    {key:"front",src:"assets/option1/front.webp?v=1125a",thumb:"assets/option1/front_t.webp?v=1125a",label:"02 정면",desc:"주방 정면. 반도형 아일랜드와 창 아래 싱크 줄, 왼쪽 벽 침니 후드"}
+    {key:"diag",src:"assets/option1/diag.webp?v=1125b",thumb:"assets/option1/diag_t.webp?v=1125b",label:"01 사선",desc:"다이닝 쪽에서 본 ㄷ자 주방. 반도형 아일랜드(다이닝 쪽 2단 서랍 3열), 창 아래 싱크, 왼쪽 벽 인덕션과 침니 후드, 오른쪽 키큰장(인출장·냉장고·오븐장·선반장)"},
+    {key:"front",src:"assets/option1/front.webp?v=1125b",thumb:"assets/option1/front_t.webp?v=1125b",label:"02 정면",desc:"주방 정면. 반도형 아일랜드와 창 아래 싱크 줄, 왼쪽 벽 침니 후드, 오른쪽 키큰장(냉장고·오븐장)"}
   ]}
 ];
 const ZIP="assets/261123_gochon_renders.zip";
@@ -276,14 +276,14 @@ const K={x:2000,y:1500};
 const toV=(x,y,z)=>new THREE.Vector3((x-K.x)/1000,z/1000,-(y-K.y)/1000);
 const PRESET={
   diag:{pos:[500, -2900, 1350],tgt:[3500, 2300, 1350],h:54.43,sx:-0.2333},
-  front:{pos:[2300, -4300, 1300],tgt:[2300, 4000, 1300],h:54.43},
+  front:{pos:[2000, -2600, 1300],tgt:[2000, 4000, 1300],h:54.43},
   top:{pos:[2000, 1500, 11000],tgt:[2000, 1510, 0],h:60}};
 const HIDE=[];const ALTG=[];function applyAltGeo(){ALTG.forEach(([m,a])=>{m.visible=a===alt.key})}/* 렌더 때 숨긴 벽: model.json의 h에 적힌 시점에서만 숨김 */
 function setFov(){const p=PRESET[curCam];if(!p||!camera)return;const v=2*Math.atan(Math.tan(p.h*Math.PI/360)/Math.min(camera.aspect,16/9))*180/Math.PI;/* 16:9보다 넓으면 위아래는 그대로 두고 옆을 더 보여 줌 */camera.fov=Math.min(100,Math.max(30,v));if(p.s||p.sx){camera.setViewOffset(1000*camera.aspect,1000,(p.sx||0)*500*camera.aspect,(p.s||0)*500,1000*camera.aspect,1000)}/* sx: 실사 카메라의 가로 시프트(수직선 유지) */else{camera.clearViewOffset()}camera.updateProjectionMatrix()}
 function goCam(k){const p=PRESET[k];curCam=k;camera.position.copy(toV(...p.pos));controls.target.copy(toV(...p.tgt));setFov();controls.update();
   HIDE.forEach(([o,hs])=>{o.visible=!hs.includes(k)});[...$('views').children].forEach(b=>b.classList.toggle('on',b.dataset.c===k));curCam=k}
 let chosen={};const TEX={};
-function woodTex(c){if(TEX[c])return TEX[c];const t=new THREE.TextureLoader().load(COLORS[c].tex+'?v=1125a');t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(1/0.6344,1/1.05)/* 이음 없앤 무늬목 928×1536px = 634×1050mm */;t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=renderer?renderer.capabilities.getMaxAnisotropy():8;return TEX[c]=t}
+function woodTex(c){if(TEX[c])return TEX[c];const t=new THREE.TextureLoader().load(COLORS[c].tex+'?v=1125b');t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(1/0.6344,1/1.05)/* 이음 없앤 무늬목 928×1536px = 634×1050mm */;t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=renderer?renderer.capabilities.getMaxAnisotropy():8;return TEX[c]=t}
 function paint(k,c){const m=M[k];if(!m||!COLORS[c]||!THREE)return;
   if(COLORS[c].tex){const t=woodTex(c);m.map=t;m.bumpMap=t;m.bumpScale=.15;m.color.set('#dcdcdc');m.roughness=.58;m.clearcoat=.15;m.clearcoatRoughness=.45}
   else{m.map=null;m.bumpMap=null;m.color.set(COLORS[c].gl);m.roughness=.6;m.clearcoat=.08;m.clearcoatRoughness=.6}
@@ -349,7 +349,7 @@ async function initGL(){
   scene.add(new THREE.HemisphereLight(0xffffff,0xd8d2c6,.25));
   const fill=new THREE.DirectionalLight(0xf2f5ff,.35);fill.position.set(4,3,-5);scene.add(fill);
   const floorTex=oakFloor();
-  let data;try{data=await (await fetch('model.json?v=1125a')).json()}catch(e){$('loading').textContent='3D 데이터를 불러오지 못했어요.';return}
+  let data;try{data=await (await fetch('model.json?v=1125b')).json()}catch(e){$('loading').textContent='3D 데이터를 불러오지 못했어요.';return}
   ctxGroup=new THREE.Group();ctxGroup.visible=false;const main=new THREE.Group();scene.add(ctxGroup,main);
   const edgeMat=new THREE.LineBasicMaterial({color:'#8f8a80',transparent:true,opacity:.22,depthWrite:false});
   const base={side:THREE.DoubleSide,polygonOffset:true,polygonOffsetFactor:1,polygonOffsetUnits:1};
