@@ -168,7 +168,7 @@ MMK 3D 뷰어 (261125 현장 수정안, 2026-11-25. 틀: 261120 현장 뷰어. �
       <canvas id="gl"></canvas>
       <div class="loading" id="loading">3D 공간을 불러오는 중…</div>
       <div class="views" id="views"><button data-c="front" class="on">01 주방 정면</button><button data-c="diag">02 주방 사선</button><button data-c="dress">03 드레스룸</button><button data-c="laundry">04 세탁실</button><button data-c="top">위에서</button></div>
-      <div class="toggles"><button id="ctx">벽체 꺼짐</button></div>
+      <div class="toggles"><button id="ctx" class="on">벽체 켜짐</button></div>
     </div><div class="color-panel" id="cpanel"><div class="cp-title">색상 변경</div><div id="cpBody" style="display:contents"></div></div></div>
   </section>
 </main>
@@ -200,10 +200,10 @@ COLORS.white=COLORS.PT09;COLORS.oak=COLORS.WD01;
 const PARTS=[{k:'Upper',name:'상부장',sub:'',pick:PT.map(p=>'PT'+p[0]),cls:'pt'},{k:'Island',name:'아일랜드',sub:'',pick:WD.map(w=>'WD'+w[0]),cls:'wd'},{k:'Tall',name:'키큰장',sub:'',pick:PT.map(p=>'PT'+p[0]),cls:'pt'},{k:'Base',name:'하부장',sub:'',pick:PT.map(p=>'PT'+p[0]),cls:'pt'}];
 const ALTS=[
   {key:1,label:'배색',cols:['white','oak','cer','dan'],parts:{Upper:'PT09',Island:'WD01',Tall:'PT09',Base:'PT09'},renders:[
-    {key:"front",src:"assets/option1/front.webp?v=1125c",thumb:"assets/option1/front_t.webp?v=1125c",label:"01 주방 정면",desc:"거실 쪽에서 본 주방. 왼쪽 Salt white 팬트리와 메탈(MT 01) 냉장고 3대, 가운데 WD 01 우드 아일랜드(다나에 세라믹 상판, 서브 인덕션), 안쪽 가스레인지와 낮은 상부장, 흰색 피아노 타일"},
-    {key:"diag",src:"assets/option1/diag.webp?v=1125c",thumb:"assets/option1/diag_t.webp?v=1125c",label:"02 주방 사선",desc:"키큰장 쪽 사선. 팬트리 2칸과 메탈 도어 냉장고 3대, 우드 아일랜드, 안쪽 싱크와 가스레인지"},
-    {key:"dress",src:"assets/option1/dress.webp?v=1125c",thumb:"assets/option1/dress_t.webp?v=1125c",label:"03 드레스룸",desc:"벽을 터서 이어진 드레스룸. Salt white 패널에 얇은 라이트 그레이 레일 시스템장, 선반과 봉은 높낮이 조절"},
-    {key:"laundry",src:"assets/option1/laundry.webp?v=1125c",thumb:"assets/option1/laundry_t.webp?v=1125c",label:"04 세탁실",desc:"워시타워와 옆 칸의 골프백 수납. 맞은편은 4단 선반 시스템장"}
+    {key:"front",src:"assets/option1/front.webp?v=1125d",thumb:"assets/option1/front_t.webp?v=1125d",label:"01 주방 정면",desc:"거실 쪽에서 본 주방. 왼쪽 Salt white 팬트리와 메탈(MT 01) 냉장고 3대, 가운데 WD 01 우드 아일랜드(다나에 세라믹 상판, 서브 인덕션), 안쪽 가스레인지와 낮은 상부장, 흰색 피아노 타일"},
+    {key:"diag",src:"assets/option1/diag.webp?v=1125d",thumb:"assets/option1/diag_t.webp?v=1125d",label:"02 주방 사선",desc:"키큰장 쪽 사선. 팬트리 2칸과 메탈 도어 냉장고 3대, 우드 아일랜드, 안쪽 싱크와 가스레인지"},
+    {key:"dress",src:"assets/option1/dress.webp?v=1125d",thumb:"assets/option1/dress_t.webp?v=1125d",label:"03 드레스룸",desc:"벽을 터서 이어진 드레스룸. Salt white 패널에 얇은 라이트 그레이 레일 시스템장, 선반과 봉은 높낮이 조절"},
+    {key:"laundry",src:"assets/option1/laundry.webp?v=1125d",thumb:"assets/option1/laundry_t.webp?v=1125d",label:"04 세탁실",desc:"워시타워와 옆 칸의 골프백 수납. 맞은편은 4단 선반 시스템장"}
   ]}
 ];
 const ZIP="assets/261125_sincheon_renders.zip";
@@ -279,7 +279,7 @@ function setFov(){const p=PRESET[curCam];if(!p||!camera)return;const v=2*Math.at
 function goCam(k){const p=PRESET[k];curCam=k;camera.position.copy(toV(...p.pos));controls.target.copy(toV(...p.tgt));setFov();controls.update();
   HIDE.forEach(([o,hs])=>{o.visible=!hs.includes(k)});[...$('views').children].forEach(b=>b.classList.toggle('on',b.dataset.c===k));curCam=k}
 let chosen={};const TEX={};
-function woodTex(c){if(TEX[c])return TEX[c];const t=new THREE.TextureLoader().load(COLORS[c].tex+'?v=1125c');t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(1/0.6344,1/1.05)/* 이음 없앤 무늬목 928×1536px = 634×1050mm */;t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=renderer?renderer.capabilities.getMaxAnisotropy():8;return TEX[c]=t}
+function woodTex(c){if(TEX[c])return TEX[c];const t=new THREE.TextureLoader().load(COLORS[c].tex+'?v=1125d');t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(1/0.6344,1/1.05)/* 이음 없앤 무늬목 928×1536px = 634×1050mm */;t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=renderer?renderer.capabilities.getMaxAnisotropy():8;return TEX[c]=t}
 function paint(k,c){const m=M[k];if(!m||!COLORS[c]||!THREE)return;
   if(COLORS[c].tex){const t=woodTex(c);m.map=t;m.bumpMap=t;m.bumpScale=.15;m.color.set('#dcdcdc');m.roughness=.58;m.clearcoat=.15;m.clearcoatRoughness=.45}
   else{m.map=null;m.bumpMap=null;m.color.set(COLORS[c].gl);m.roughness=.6;m.clearcoat=.08;m.clearcoatRoughness=.6}
@@ -345,8 +345,8 @@ async function initGL(){
   scene.add(new THREE.HemisphereLight(0xffffff,0xd8d2c6,.25));
   const fill=new THREE.DirectionalLight(0xf2f5ff,.35);fill.position.set(4,3,-5);scene.add(fill);
   const floorTex=oakFloor();
-  let data;try{data=await (await fetch('model.json?v=1125c')).json()}catch(e){$('loading').textContent='3D 데이터를 불러오지 못했어요.';return}
-  ctxGroup=new THREE.Group();ctxGroup.visible=false;const main=new THREE.Group();scene.add(ctxGroup,main);
+  let data;try{data=await (await fetch('model.json?v=1125d')).json()}catch(e){$('loading').textContent='3D 데이터를 불러오지 못했어요.';return}
+  ctxGroup=new THREE.Group();ctxGroup.visible=true;const main=new THREE.Group();scene.add(ctxGroup,main);
   const edgeMat=new THREE.LineBasicMaterial({color:'#8f8a80',transparent:true,opacity:.22,depthWrite:false});
   const base={side:THREE.DoubleSide,polygonOffset:true,polygonOffsetFactor:1,polygonOffsetUnits:1};
   function matFor(l){if(M[l])return M[l];let m;
