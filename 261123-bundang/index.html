@@ -19,7 +19,7 @@ MMK 3D 뷰어 (261123 분당동 현장, 2026-11-25. 틀: 261123 별내동 뷰어
 <title>MMK · BD-project · 경기 성남시 분당구 분당동</title>
 <meta name="description" content="BD-project 주방. 렌더와 3D 공간.">
 <meta property="og:title" content="MMK · BD-project · 경기 성남시 분당구 분당동">
-<meta property="og:description" content="ㄱ자 + 아일랜드 · 홈바 · 3D 공간 · 렌더 준비 중">
+<meta property="og:description" content="ㄱ자 + 아일랜드 · 홈바 · 렌더 3컷 · 3D 공간">
 <meta property="og:image" content="https://5zpjn5d9sv-hue.github.io/mmk-viewer/261123-bundang/assets/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -208,9 +208,13 @@ COLORS.white=COLORS.PT09;COLORS.oak=COLORS.WD01;
 /* PET 마감 현장: 도장 칩 없이 PET 화이트 고정, 색상 변경 칸 숨김 (2026-11-27 사용자 지시) */
 const PARTS=[];
 const ALTS=[
-  {key:1,label:'Alt1',cols:['lay1','petw','sts'],parts:{Island:'petw',Tall:'petw',Base:'petw',Homebar:'petw'},renders:[]}
+  {key:1,label:'Alt1',cols:['lay1','petw','sts'],parts:{Island:'petw',Tall:'petw',Base:'petw',Homebar:'petw'},renders:[
+    {key:"main",src:"assets/option1/main.webp?v=1127e",thumb:"assets/option1/main_t.webp?v=1127e",label:"01 본주방",desc:"다이닝 쪽에서 본 아일랜드. PET 화이트 서랍 6열×2단, 인덕션과 일체형 싱크, STS 3T 상판, 창 아래 하부장"},
+    {key:"tall",src:"assets/option1/tall.webp?v=1127e",thumb:"assets/option1/tall_t.webp?v=1127e",label:"02 키큰장",desc:"남쪽·서쪽 키큰장. 오븐장, 패널을 붙인 하부냉장고, 팬트리, 냉장고장과 로봇청소기 자리"},
+    {key:"bar",src:"assets/option1/bar.webp?v=1127e",thumb:"assets/option1/bar_t.webp?v=1127e",label:"03 홈바",desc:"거실에서 본 홈바 벽감(서랍 3단·상부 여닫이·STS 상판)과 가사실 양여닫이 문, 뒤로 주방"}
+  ]}
 ];
-const ZIP="";
+const ZIP="assets/261123_bundang_renders.zip";
 
 /* ---- 공통 ---- */
 const $=id=>document.getElementById(id);
@@ -273,16 +277,16 @@ let THREE,curCam='main',glReady=false,renderer,scene,camera,controls,composer,ct
 const K={x:3000,y:2000};
 const toV=(x,y,z)=>new THREE.Vector3((x-K.x)/1000,z/1000,-(y-K.y)/1000);
 const PRESET={
-  main:{pos:[3700, -1300, 1650],tgt:[4900, 3400, 850],h:70},
-  tall:{pos:[4800, 1300, 1600],tgt:[300, 900, 1100],h:75},
-  bar:{pos:[5400, -4200, 1600],tgt:[2700, -1100, 1050],h:66},
+  main:{pos:[4400, -2600, 1400],tgt:[4750, 2900, 1000],h:54.4},
+  tall:{pos:[3000, 4250, 1400],tgt:[1000, 2100, 1100],h:65.5},
+  bar:{pos:[5400, -4900, 1400],tgt:[3100, 200, 1100],h:65.5},
   top:{pos:[2700, 1500, 11500],tgt:[2700, 1510, 0],h:60}};
 const HIDE=[];const ALTG=[];function applyAltGeo(){ALTG.forEach(([m,a])=>{m.visible=a===alt.key})}/* 렌더 때 숨긴 벽: model.json의 h에 적힌 시점에서만 숨김 */
 function setFov(){const p=PRESET[curCam];if(!p||!camera)return;const v=2*Math.atan(Math.tan(p.h*Math.PI/360)/Math.min(camera.aspect,16/9))*180/Math.PI;/* 16:9보다 넓으면 위아래는 그대로 두고 옆을 더 보여 줌 */camera.fov=Math.min(100,Math.max(30,v));if(p.s){camera.setViewOffset(1000*camera.aspect,1000,0,p.s*500,1000*camera.aspect,1000)}else{camera.clearViewOffset()}camera.updateProjectionMatrix()}
 function goCam(k){const p=PRESET[k];curCam=k;camera.position.copy(toV(...p.pos));controls.target.copy(toV(...p.tgt));setFov();controls.update();
   HIDE.forEach(([o,hs])=>{o.visible=!hs.includes(k)});[...$('views').children].forEach(b=>b.classList.toggle('on',b.dataset.c===k));curCam=k}
 let chosen={};const TEX={};
-function woodTex(c){if(TEX[c])return TEX[c];const t=new THREE.TextureLoader().load(COLORS[c].tex+'?v=1127d');t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(1/0.6344,1/1.05)/* 이음 없앤 무늬목 928×1536px = 634×1050mm */;t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=renderer?renderer.capabilities.getMaxAnisotropy():8;return TEX[c]=t}
+function woodTex(c){if(TEX[c])return TEX[c];const t=new THREE.TextureLoader().load(COLORS[c].tex+'?v=1127e');t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(1/0.6344,1/1.05)/* 이음 없앤 무늬목 928×1536px = 634×1050mm */;t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=renderer?renderer.capabilities.getMaxAnisotropy():8;return TEX[c]=t}
 function paint(k,c){const m=M[k];if(!m||!COLORS[c]||!THREE)return;
   if(COLORS[c].tex){const t=woodTex(c);m.map=t;m.bumpMap=t;m.bumpScale=.15;m.color.set('#dcdcdc');m.roughness=.58;m.clearcoat=.15;m.clearcoatRoughness=.45}
   else{m.map=null;m.bumpMap=null;m.color.set(COLORS[c].gl);m.roughness=.6;m.clearcoat=.08;m.clearcoatRoughness=.6}
@@ -348,7 +352,7 @@ async function initGL(){
   scene.add(new THREE.HemisphereLight(0xffffff,0xd8d2c6,.25));
   const fill=new THREE.DirectionalLight(0xf2f5ff,.35);fill.position.set(4,3,-5);scene.add(fill);
   const floorTex=oakFloor();
-  let data;try{data=await (await fetch('model.json?v=1127d')).json()}catch(e){$('loading').textContent='3D 데이터를 불러오지 못했어요.';return}
+  let data;try{data=await (await fetch('model.json?v=1127e')).json()}catch(e){$('loading').textContent='3D 데이터를 불러오지 못했어요.';return}
   ctxGroup=new THREE.Group();ctxGroup.visible=false;const main=new THREE.Group();scene.add(ctxGroup,main);
   const edgeMat=new THREE.LineBasicMaterial({color:'#8f8a80',transparent:true,opacity:.22,depthWrite:false});
   const base={side:THREE.DoubleSide,polygonOffset:true,polygonOffsetFactor:1,polygonOffsetUnits:1};
