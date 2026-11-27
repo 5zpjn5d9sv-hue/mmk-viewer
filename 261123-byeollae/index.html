@@ -207,12 +207,12 @@ COLORS.white=COLORS.PT09;COLORS.oak=COLORS.WD01;
 const PARTS=[{k:'Upper',name:'상부장',sub:'',pick:PT.map(p=>'PT'+p[0]),cls:'pt',alts:[2]},{k:'Island',name:{1:'아일랜드',2:'반도형'},sub:'',pick:PT.map(p=>'PT'+p[0]),cls:'pt'},{k:'Tall',name:'키큰장',sub:'',pick:PT.map(p=>'PT'+p[0]),cls:'pt'},{k:'Base',name:'하부장',sub:'',pick:PT.map(p=>'PT'+p[0]),cls:'pt'}];
 const ALTS=[
   {key:1,label:'Alt1',cols:['lay1','white','sts'],parts:{Island:'PT09',Tall:'PT09',Base:'PT09'},renders:[
-    {key:"diag",src:"assets/option1/diag.webp?v=1127b",thumb:"assets/option1/diag_t.webp?v=1127b",label:"01 사선",desc:"다이닝 쪽에서 본 11자 주방. 팬트리 두 칸과 오븐장, 스텐 냉장고 세 대, 창 아래 하부장, 오른쪽 벽에 붙인 아일랜드 2200×1000"},
-    {key:"front",src:"assets/option1/front.webp?v=1127b",thumb:"assets/option1/front_t.webp?v=1127b",label:"02 정면",desc:"주방 정면. 창 아래 싱크와 양옆 STS 미드웨이, 인덕션이 있는 아일랜드(주방 쪽·다이닝 쪽 서랍 3칸씩)"}
+    {key:"diag",src:"assets/option1/diag.webp?v=1127c",thumb:"assets/option1/diag_t.webp?v=1127c",label:"01 사선",desc:"다이닝 쪽에서 본 11자 주방. 팬트리 두 칸과 오븐장, 스텐 냉장고 세 대, 창 아래 하부장, 오른쪽 벽에 붙인 아일랜드 2200×1000"},
+    {key:"front",src:"assets/option1/front.webp?v=1127c",thumb:"assets/option1/front_t.webp?v=1127c",label:"02 정면",desc:"주방 정면. 창 아래 싱크와 양옆 STS 미드웨이, 인덕션이 있는 아일랜드(주방 쪽·다이닝 쪽 서랍 3칸씩)"}
   ]},
   {key:2,label:'Alt2',cols:['lay2','white','sts'],parts:{Upper:'PT09',Island:'PT09',Tall:'PT09',Base:'PT09'},renders:[
-    {key:"diag",src:"assets/option2/diag.webp?v=1127b",thumb:"assets/option2/diag_t.webp?v=1127b",label:"01 사선",desc:"다이닝 쪽에서 본 ㄷ자 주방. 팬트리 두 칸과 오븐장, 스텐 냉장고 세 대, 창 아래 하부장, 인덕션이 있는 반도형"},
-    {key:"front",src:"assets/option2/front.webp?v=1127b",thumb:"assets/option2/front_t.webp?v=1127b",label:"02 정면",desc:"주방 정면. 창 아래 싱크와 양옆 STS 미드웨이, 오른쪽 벽 플랩 상부장과 미드웨이, 반도형(다이닝 쪽 서랍 3칸)"}
+    {key:"diag",src:"assets/option2/diag.webp?v=1127c",thumb:"assets/option2/diag_t.webp?v=1127c",label:"01 사선",desc:"다이닝 쪽에서 본 ㄷ자 주방. 팬트리 두 칸과 오븐장, 스텐 냉장고 세 대, 창 아래 하부장, 인덕션이 있는 반도형"},
+    {key:"front",src:"assets/option2/front.webp?v=1127c",thumb:"assets/option2/front_t.webp?v=1127c",label:"02 정면",desc:"주방 정면. 창 아래 싱크와 양옆 STS 미드웨이, 오른쪽 벽 플랩 상부장과 미드웨이, 반도형(다이닝 쪽 서랍 3칸)"}
   ]}
 ];
 const ZIP="assets/261123_byeollae_renders.zip";
@@ -286,7 +286,7 @@ function setFov(){const p=PRESET[curCam];if(!p||!camera)return;const v=2*Math.at
 function goCam(k){const p=PRESET[k];curCam=k;camera.position.copy(toV(...p.pos));controls.target.copy(toV(...p.tgt));setFov();controls.update();
   HIDE.forEach(([o,hs])=>{o.visible=!hs.includes(k)});[...$('views').children].forEach(b=>b.classList.toggle('on',b.dataset.c===k));curCam=k}
 let chosen={};const TEX={};
-function woodTex(c){if(TEX[c])return TEX[c];const t=new THREE.TextureLoader().load(COLORS[c].tex+'?v=1127b');t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(1/0.6344,1/1.05)/* 이음 없앤 무늬목 928×1536px = 634×1050mm */;t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=renderer?renderer.capabilities.getMaxAnisotropy():8;return TEX[c]=t}
+function woodTex(c){if(TEX[c])return TEX[c];const t=new THREE.TextureLoader().load(COLORS[c].tex+'?v=1127c');t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(1/0.6344,1/1.05)/* 이음 없앤 무늬목 928×1536px = 634×1050mm */;t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=renderer?renderer.capabilities.getMaxAnisotropy():8;return TEX[c]=t}
 function paint(k,c){const m=M[k];if(!m||!COLORS[c]||!THREE)return;
   if(COLORS[c].tex){const t=woodTex(c);m.map=t;m.bumpMap=t;m.bumpScale=.15;m.color.set('#dcdcdc');m.roughness=.58;m.clearcoat=.15;m.clearcoatRoughness=.45}
   else{m.map=null;m.bumpMap=null;m.color.set(COLORS[c].gl);m.roughness=.6;m.clearcoat=.08;m.clearcoatRoughness=.6}
@@ -352,7 +352,7 @@ async function initGL(){
   scene.add(new THREE.HemisphereLight(0xffffff,0xd8d2c6,.25));
   const fill=new THREE.DirectionalLight(0xf2f5ff,.35);fill.position.set(4,3,-5);scene.add(fill);
   const floorTex=oakFloor();
-  let data;try{data=await (await fetch('model.json?v=1127b')).json()}catch(e){$('loading').textContent='3D 데이터를 불러오지 못했어요.';return}
+  let data;try{data=await (await fetch('model.json?v=1127c')).json()}catch(e){$('loading').textContent='3D 데이터를 불러오지 못했어요.';return}
   ctxGroup=new THREE.Group();ctxGroup.visible=false;const main=new THREE.Group();scene.add(ctxGroup,main);
   const edgeMat=new THREE.LineBasicMaterial({color:'#8f8a80',transparent:true,opacity:.22,depthWrite:false});
   const base={side:THREE.DoubleSide,polygonOffset:true,polygonOffsetFactor:1,polygonOffsetUnits:1};
